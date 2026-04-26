@@ -1,0 +1,235 @@
+.about {
+  background: var(--bg-primary);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+@media (max-width: 1024px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+.about-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+img{
+  width: 100%;
+  height: auto;
+  border-radius: 50%;
+}
+.image-frame {
+  position: relative;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+}
+
+.image-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(139, 92, 246, 0.1));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  border: 2px solid rgba(6, 182, 212, 0.2);
+  position: relative;
+  overflow:hidden;
+}
+
+.image-placeholder::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 3px dashed var(--cyan);
+  border-radius: 50%;
+  animation: spin 20s linear infinite;
+  opacity: 0.5;
+}
+
+.image-border {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% + 40px);
+  height: calc(100% + 40px);
+  border: 2px solid rgba(6, 182, 212, 0.3);
+  border-radius: 50%;
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.image-corners {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.image-corners::before,
+.image-corners::after {
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border: 2px solid var(--cyan);
+}
+
+.image-corners::before {
+  top: -15px;
+  left: -15px;
+  border-right: none;
+  border-bottom: none;
+  border-radius: 50%;
+}
+
+.image-corners::after {
+  bottom: -15px;
+  right: -15px;
+  border-left: none;
+  border-top: none;
+  border-radius: 50%;
+}
+
+.about-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.about-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.about-text p {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+.focus-areas {
+  margin-top: 1rem;
+}
+
+.focus-areas h3 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: var(--cyan);
+  font-family: 'Syne', sans-serif;
+}
+
+.focus-tags {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.focus-tag {
+  padding: 0.75rem 1rem;
+  background: rgba(6, 182, 212, 0.05);
+  border: 1px solid rgba(6, 182, 212, 0.2);
+  border-radius: 0.5rem;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.focus-tag:hover {
+  background: rgba(6, 182, 212, 0.1);
+  border-color: rgba(6, 182, 212, 0.4);
+  color: var(--cyan);
+  transform: translateX(5px);
+}
+
+.philosophy-quote {
+  font-size: 1.3rem;
+  font-style: italic;
+  color: var(--cyan);
+  padding: 1.5rem;
+  border-left: 3px solid;
+  border-image: linear-gradient(180deg, var(--cyan), var(--violet)) 1;
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.06), rgba(139, 92, 246, 0.04));
+  border-radius: 0.5rem;
+  margin: 2rem 0;
+}
+
+.about-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.stat-card {
+  text-align: center;
+  padding: 2rem 1rem;
+  background: rgba(6, 182, 212, 0.03);
+  border: 1px solid rgba(6, 182, 212, 0.2);
+  border-radius: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  border-color: rgba(6, 182, 212, 0.4);
+  box-shadow: 0 0 25px rgba(6, 182, 212, 0.15);
+  transform: translateY(-4px);
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-family: 'Orbitron', monospace;
+}
+
+.stat-value span {
+  font-size: 1.5rem;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-top: 0.5rem;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .image-frame {
+    width: 200px;
+    height: 200px;
+  }
+
+  .about-grid {
+    gap: 2rem;
+  }
+
+  .focus-tags {
+    grid-template-columns: 1fr;
+  }
+
+  .about-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

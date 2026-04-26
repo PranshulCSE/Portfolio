@@ -1,0 +1,137 @@
+.education {
+  background: var(--bg-primary);
+}
+
+.education-timeline {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  position: relative;
+}
+
+.education-timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, rgba(6, 182, 212, 0.3), rgba(139, 92, 246, 0.3));
+  transform: translateX(-50%);
+}
+
+@media (max-width: 768px) {
+  .education-timeline::before { left: 10%; }
+}
+
+.education-card {
+  position: relative;
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.education-card.left { margin-right: 50%; }
+.education-card.right { margin-left: 50%; justify-self: end; }
+
+@media (max-width: 768px) {
+  .education-card {
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+    padding-left: calc(10% + 2rem);
+  }
+  .education-card.left, .education-card.right { margin: 0; }
+}
+
+.edu-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+  border-radius: 50%;
+  color: #fff;
+  font-weight: 700;
+  flex-shrink: 0;
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+}
+
+/* .education-card::before {
+  content: '';
+  position: absolute;
+  left: 90%;
+  top: 30px;
+  transform: translateX(-50%);
+  width: 0px;
+  height: 0px;
+  background: var(--bg-primary);
+  border: 3px solid var(--cyan);
+  border-radius: 50%;
+  z-index: 10;
+} */
+
+@media (max-width: 768px) {
+  .education-card::before { left: 10%; top: 30px; }
+}
+
+.edu-content { display: flex; flex-direction: column; gap: 0.75rem; }
+
+.edu-degree {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  font-family: 'Syne', sans-serif;
+}
+
+.edu-school { font-size: 1rem; color: var(--cyan); font-weight: 600; }
+.edu-duration { font-size: 0.9rem; color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; }
+
+.edu-gpa {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: rgba(6, 182, 212, 0.05);
+  border-left: 3px solid var(--cyan);
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+}
+
+.gpa-label { color: var(--text-secondary); font-weight: 600; }
+
+.gpa-value {
+  font-size: 1.3rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-family: 'Orbitron', monospace;
+}
+
+.gpa-stars { display: flex; gap: 0.25rem; margin-left: auto; }
+.gpa-stars svg { color: rgba(6, 182, 212, 0.3); transition: color 0.3s ease; }
+.gpa-stars svg.filled { color: var(--gold); }
+
+.edu-description { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6; }
+
+.edu-highlights { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+
+.highlight {
+  padding: 0.4rem 0.8rem;
+  background: rgba(139, 92, 246, 0.1);
+  color: var(--violet);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 0.3rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+@media (max-width: 1024px) {
+  .education-card { grid-template-columns: 1fr; }
+  .edu-icon { justify-self: start; }
+}
