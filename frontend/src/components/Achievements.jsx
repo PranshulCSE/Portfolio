@@ -84,7 +84,9 @@ const Achievements = () => {
                             onClick={() => setSelectedAchievement(achievement)}
                         >
                             <div className="achievement-image">
-                                <div className="image-placeholder">{achievement.title}</div>
+                                <div className="image-placeholder">
+                                    <img src={achievement.img} alt={achievement.title} />
+                                </div>
                                 <div className="achievement-overlay">
                                     <button className="view-btn">View Details</button>
                                 </div>
@@ -123,7 +125,7 @@ const Achievements = () => {
                         <div className="lightbox-inner">
                             <div className="lightbox-image">
                                 <div className="image-placeholder-large">
-                                    {selectedAchievement.title}
+                                    <img src={selectedAchievement.img} alt={selectedAchievement.title} />
                                 </div>
                             </div>
                             <div className="lightbox-info">

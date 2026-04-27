@@ -131,6 +131,7 @@ export const portfolioData = {
     achievements: [
         {
             id: 1,
+            img:"../public/assets/Images/leetcode.png",
             title: '170+ DSA Problems + 100-Day Streak',
             description: 'Solved 170+ problems on LeetCode & GFG with a 100-day consistent streak.',
             category: 'Technical',
@@ -138,6 +139,7 @@ export const portfolioData = {
         },
         {
             id: 2,
+            img:"../public/assets/Images/yugantran.jpg",
             title: 'Winner – Yugantran 2.0',
             description: 'Won 1st place in Geeta University\'s annual Tech fest.',
             category: 'Competition',
@@ -145,6 +147,7 @@ export const portfolioData = {
         },
         {
             id: 3,
+            img:"../public/assets/Images/RED01504.jpg",
             title: 'Mentor – HackForge 2.0',
             description: 'Mentored 140+ teams and 490+ participants in Geeta University\'s hackathon.',
             category: 'Mentorship',
@@ -152,19 +155,12 @@ export const portfolioData = {
         },
         {
             id: 4,
+            img:"../public/assets/Images/PC.jpg",
             title: 'Class Representative (CR)',
             description: 'Acted as liaison between students and faculty, improving coordination.',
             category: 'Leadership',
             date: '2025-2026'
-        },
-        {
-            id: 5,
-            title: '30+ Certifications',
-            description: 'Earned certifications in Web Dev, Cybersecurity, and Node.js.',
-            category: 'Learning',
-            date: '2025-2026'
-        },
-        
+        }
     ]
 };
 
