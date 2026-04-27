@@ -82,7 +82,7 @@ export const portfolioData = {
     projects: [
         {
             id: 1,
-            img:'../public/assets/projects/sajssm.png',
+            img:'/assets/projects/sajssm.png',
             title: 'SAJSSM – Society Website',
             description: 'Built and maintained official website using MERN stack. Increased engagement by 35% and automated 5+ processes reducing admin workload by 50%. Managed deployments and 15+ feature updates.',
             image: '/assets/projects/sajssm.png',
@@ -95,7 +95,7 @@ export const portfolioData = {
         },
         {
             id: 2,
-            img:'../public/assets/projects/ecommerce.png',
+            img:'/assets/projects/ecommerce.png',
             title: 'E-Commerce Platform',
             description: 'Full-stack e-commerce app with dynamic UI, REST APIs, and Razorpay payment integration. Focused on scalability and backend business logic.',
             image: '/assets/projects/ecommerce.png',
@@ -126,12 +126,10 @@ export const portfolioData = {
         }
     ],
 
-
-
     achievements: [
         {
             id: 1,
-            img:"../public/assets/Images/leetcode.png",
+            img:"/assets/Images/leetcode.png",
             title: '170+ DSA Problems + 100-Day Streak',
             description: 'Solved 170+ problems on LeetCode & GFG with a 100-day consistent streak.',
             category: 'Technical',
@@ -139,7 +137,7 @@ export const portfolioData = {
         },
         {
             id: 2,
-            img:"../public/assets/Images/yugantran.jpg",
+            img:"/assets/Images/yugantran.jpg",
             title: 'Winner – Yugantran 2.0',
             description: 'Won 1st place in Geeta University\'s annual Tech fest.',
             category: 'Competition',
@@ -147,7 +145,7 @@ export const portfolioData = {
         },
         {
             id: 3,
-            img:"../public/assets/Images/RED01504.jpg",
+            img:"/assets/Images/RED01504.jpg",
             title: 'Mentor – HackForge 2.0',
             description: 'Mentored 140+ teams and 490+ participants in Geeta University\'s hackathon.',
             category: 'Mentorship',
@@ -155,7 +153,7 @@ export const portfolioData = {
         },
         {
             id: 4,
-            img:"../public/assets/Images/PC.jpg",
+            img:"/assets/Images/PC.jpg",
             title: 'Class Representative (CR)',
             description: 'Acted as liaison between students and faculty, improving coordination.',
             category: 'Leadership',
