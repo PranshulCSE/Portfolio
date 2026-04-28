@@ -16,7 +16,7 @@ export const portfolioData = {
     },
 
     about: {
-        bio: "MCA student at Geeta University and a results-driven Full-Stack Developer with a strong focus on building scalable web applications and solving complex problems.\n\nI specialize in the MERN stack (MongoDB, Express.js, React.js, Node.js) and have a solid foundation in Data Structures & Algorithms, with an emphasis on writing efficient, optimized, and clean code.\n\nBeyond development, I actively contribute to teams, mentor peers, and communicate technical concepts through public speaking. I enjoy turning complex ideas into real-world solutions while continuously learning and adapting to new technologies.\n\nCurrently seeking opportunities to apply my MERN and DSA skills in a professional software development environment. 🚀",    philosophy: 'Consistency + Curiosity + Clean Code = Great Software',
+        bio: "MCA student at Geeta University and a results-driven Full-Stack Developer with a strong focus on building scalable web applications and solving complex problems.\n\nI specialize in the MERN stack (MongoDB, Express.js, React.js, Node.js) and have a solid foundation in Data Structures & Algorithms, with an emphasis on writing efficient, optimized, and clean code.\n\nBeyond development, I actively contribute to teams, mentor peers, and communicate technical concepts through public speaking. I enjoy turning complex ideas into real-world solutions while continuously learning and adapting to new technologies.\n\nCurrently seeking opportunities to apply my MERN and DSA skills in a professional software development environment. 🚀", philosophy: 'Consistency + Curiosity + Clean Code = Great Software',
         focus: [
             'Advanced MERN Stack Architecture',
             'System Design Fundamentals',
@@ -72,7 +72,7 @@ export const portfolioData = {
         learning: [
             'Advanced MERN Stack Architecture',
             'Backend Performance Optimization',
-            'Artificial Intelligence (AI) & LLMs', 
+            'Artificial Intelligence (AI) & LLMs',
             'System Design Fundamentals',
             'Authentication & Security',
             'Scalable API Development'
@@ -82,10 +82,10 @@ export const portfolioData = {
     projects: [
         {
             id: 1,
-            img:'/assets/projects/sajssm.png',
+            img: '/assets/Projects/SAJSSM.png',
             title: 'SAJSSM – Society Website',
             description: 'Built and maintained official website using MERN stack. Increased engagement by 35% and automated 5+ processes reducing admin workload by 50%. Managed deployments and 15+ feature updates.',
-            image: '/assets/projects/sajssm.png',
+            image: '/assets/Projects/SAJSSM.png',
             metrics: ['35% ↑ Engagement', '50% ↓ Workload', '15+ Updates'],
             tags: ['MERN Stack', 'MongoDB', 'Express.js', 'React.js', 'Node.js'],
             github: 'https://github.com/PranshulCSE/Shri_Amarnath_Janshakti_Website.git',
@@ -95,16 +95,16 @@ export const portfolioData = {
         },
         {
             id: 2,
-            img:'/assets/projects/ecommerce.png',
+            img: '/assets/Projects/ECommerce.png',
             title: 'E-Commerce Platform',
             description: 'Full-stack e-commerce app with dynamic UI, REST APIs, and Razorpay payment integration. Focused on scalability and backend business logic.',
-            image: '/assets/projects/ecommerce.png',
+            image: '/assets/Projects/ECommerce.png',
             tags: ['React.js', 'Node.js', 'MongoDB', 'Express.js', 'Razorpay'],
             github: 'https://github.com/PranshulCSE/E-Commerce-Full-Stack-Web-Application-.git',
             featured: true,
             category: 'Full Stack'
         }
-        
+
     ],
 
     education: [
@@ -113,7 +113,7 @@ export const portfolioData = {
             school: 'Geeta University, Panipat',
             duration: 'Aug 2025 – May 2027',
             gpa: 9.33,
-            highlights: ['Class Representative', 'INCSTIC 2025 Attendee','Student Mentor','Event Organiser – Tech Symposium'],
+            highlights: ['Class Representative', 'INCSTIC 2025 Attendee', 'Student Mentor', 'Event Organiser – Tech Symposium'],
             description: 'Focused on Full-Stack Development, System Design, and Artificial Intelligence (AI).'
         },
         {
@@ -129,7 +129,7 @@ export const portfolioData = {
     achievements: [
         {
             id: 1,
-            img:"/assets/Images/leetcode.png",
+            img: "/assets/Images/Leetcode.png",
             title: '170+ DSA Problems + 100-Day Streak',
             description: 'Solved 170+ problems on LeetCode & GFG with a 100-day consistent streak.',
             category: 'Technical',
@@ -137,7 +137,7 @@ export const portfolioData = {
         },
         {
             id: 2,
-            img:"/assets/Images/yugantran.jpg",
+            img: "/assets/Images/Yugantran.jpg",
             title: 'Winner – Yugantran 2.0',
             description: 'Won 1st place in Geeta University\'s annual Tech fest.',
             category: 'Competition',
@@ -145,7 +145,7 @@ export const portfolioData = {
         },
         {
             id: 3,
-            img:"/assets/Images/RED01504.jpg",
+            img: "/assets/Images/RED01504.JPG",
             title: 'Mentor – HackForge 2.0',
             description: 'Mentored 140+ teams and 490+ participants in Geeta University\'s hackathon.',
             category: 'Mentorship',
@@ -153,7 +153,7 @@ export const portfolioData = {
         },
         {
             id: 4,
-            img:"/assets/Images/PC.jpg",
+            img: "/assets/Images/PC.jpg",
             title: 'Class Representative (CR)',
             description: 'Acted as liaison between students and faculty, improving coordination.',
             category: 'Leadership',

@@ -23,7 +23,7 @@ const About = () => {
                     >
                         <div className="image-frame">
                             <div className="image-placeholder">
-                                <img src="../public/assets/images/Profile1.png"></img> 
+                                <img src="/assets/Images/Profile1.png"></img>
                             </div>
                             <div className="image-border" />
                             <div className="image-corners" />
