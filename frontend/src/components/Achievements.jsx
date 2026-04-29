@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { X } from 'lucide-react';
 import { portfolioData } from '../constants/data';
 import { useScrollReveal } from '../hooks/useScrollReveal';
+import OptimizedImage from './OptimizedImage';
 import '../styles/Achievements.css';
 
 const Achievements = () => {
@@ -85,7 +86,14 @@ const Achievements = () => {
                         >
                             <div className="achievement-image">
                                 <div className="image-placeholder">
-                                    <img src={achievement.img} alt={achievement.title} />
+                                    <OptimizedImage
+                                        src={achievement.img}
+                                        alt={achievement.title}
+                                        className="achievement-image-media"
+                                        loading="lazy"
+                                        width={1200}
+                                        height={800}
+                                    />
                                 </div>
                                 <div className="achievement-overlay">
                                     <button className="view-btn">View Details</button>
@@ -125,7 +133,14 @@ const Achievements = () => {
                         <div className="lightbox-inner">
                             <div className="lightbox-image">
                                 <div className="image-placeholder-large">
-                                    <img src={selectedAchievement.img} alt={selectedAchievement.title} />
+                                    <OptimizedImage
+                                        src={selectedAchievement.img}
+                                        alt={selectedAchievement.title}
+                                        className="achievement-lightbox-media"
+                                        loading="lazy"
+                                        width={1400}
+                                        height={900}
+                                    />
                                 </div>
                             </div>
                             <div className="lightbox-info">

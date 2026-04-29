@@ -22,10 +22,11 @@
   align-items: center;
 }
 
-img{
+.about-profile-img {
   width: 100%;
   height: auto;
   border-radius: 50%;
+  object-fit: cover;
 }
 .image-frame {
   position: relative;
@@ -47,6 +48,12 @@ img{
   border: 2px solid rgba(6, 182, 212, 0.2);
   position: relative;
   overflow:hidden;
+}
+
+.image-placeholder .about-profile-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .image-placeholder::before {

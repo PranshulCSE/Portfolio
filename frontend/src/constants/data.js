@@ -1,3 +1,5 @@
+const assetPath = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`;
+
 export const portfolioData = {
     personal: {
         name: 'Pranshul Threja',
@@ -82,10 +84,10 @@ export const portfolioData = {
     projects: [
         {
             id: 1,
-            img: '/assets/Projects/SAJSSM.png',
+            img: assetPath('assets/Projects/SAJSSM.png'),
             title: 'SAJSSM – Society Website',
             description: 'Built and maintained official website using MERN stack. Increased engagement by 35% and automated 5+ processes reducing admin workload by 50%. Managed deployments and 15+ feature updates.',
-            image: '/assets/Projects/SAJSSM.png',
+            image: assetPath('assets/Projects/SAJSSM.png'),
             metrics: ['35% ↑ Engagement', '50% ↓ Workload', '15+ Updates'],
             tags: ['MERN Stack', 'MongoDB', 'Express.js', 'React.js', 'Node.js'],
             github: 'https://github.com/PranshulCSE/Shri_Amarnath_Janshakti_Website.git',
@@ -95,10 +97,10 @@ export const portfolioData = {
         },
         {
             id: 2,
-            img: '/assets/Projects/ECommerce.png',
+            img: assetPath('assets/Projects/ECommerce.png'),
             title: 'E-Commerce Platform',
             description: 'Full-stack e-commerce app with dynamic UI, REST APIs, and Razorpay payment integration. Focused on scalability and backend business logic.',
-            image: '/assets/Projects/ECommerce.png',
+            image: assetPath('assets/Projects/ECommerce.png'),
             tags: ['React.js', 'Node.js', 'MongoDB', 'Express.js', 'Razorpay'],
             github: 'https://github.com/PranshulCSE/E-Commerce-Full-Stack-Web-Application-.git',
             featured: true,
@@ -129,7 +131,7 @@ export const portfolioData = {
     achievements: [
         {
             id: 1,
-            img: "/assets/Images/Leetcode.png",
+            img: assetPath('assets/Images/Leetcode.png'),
             title: '170+ DSA Problems + 100-Day Streak',
             description: 'Solved 170+ problems on LeetCode & GFG with a 100-day consistent streak.',
             category: 'Technical',
@@ -137,7 +139,7 @@ export const portfolioData = {
         },
         {
             id: 2,
-            img: "/assets/Images/Yugantran.jpg",
+            img: assetPath('assets/Images/Yugantran.jpg'),
             title: 'Winner – Yugantran 2.0',
             description: 'Won 1st place in Geeta University\'s annual Tech fest.',
             category: 'Competition',
@@ -145,7 +147,7 @@ export const portfolioData = {
         },
         {
             id: 3,
-            img: "/assets/Images/RED01504.JPG",
+            img: assetPath('assets/Images/RED01504.JPG'),
             title: 'Mentor – HackForge 2.0',
             description: 'Mentored 140+ teams and 490+ participants in Geeta University\'s hackathon.',
             category: 'Mentorship',
@@ -153,7 +155,7 @@ export const portfolioData = {
         },
         {
             id: 4,
-            img: "/assets/Images/PC.jpg",
+            img: assetPath('assets/Images/PC.jpg'),
             title: 'Class Representative (CR)',
             description: 'Acted as liaison between students and faculty, improving coordination.',
             category: 'Leadership',

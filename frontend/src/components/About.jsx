@@ -3,12 +3,14 @@ import CountUp from 'react-countup';
 import { useInView } from 'react-intersection-observer';
 import { portfolioData } from '../constants/data';
 import { useScrollReveal } from '../hooks/useScrollReveal';
+import OptimizedImage from './OptimizedImage';
 import '../styles/About.css';
 
 const About = () => {
     const { ref, inView } = useInView({ threshold: 0.2, triggerOnce: true });
     const sectionRef = useScrollReveal();
     const { about } = portfolioData;
+    const assetBase = import.meta.env.BASE_URL;
 
     return (
         <section id="about" className="about section" ref={sectionRef}>
@@ -23,7 +25,14 @@ const About = () => {
                     >
                         <div className="image-frame">
                             <div className="image-placeholder">
-                                <img src="/assets/Images/Profile1.png"></img>
+                                <OptimizedImage
+                                    src={`${assetBase}assets/Images/Profile1.png`}
+                                    alt="Profile"
+                                    className="about-profile-img"
+                                    loading="lazy"
+                                    width={800}
+                                    height={800}
+                                />
                             </div>
                             <div className="image-border" />
                             <div className="image-corners" />

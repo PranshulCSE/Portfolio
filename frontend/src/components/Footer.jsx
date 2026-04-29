@@ -9,12 +9,28 @@ const Footer = () => {
     const [showScrollTop, setShowScrollTop] = useState(false);
 
     useEffect(() => {
+        let animationFrameId = 0;
+
         const handleScroll = () => {
-            setShowScrollTop(window.scrollY > 300);
+            if (animationFrameId) {
+                return;
+            }
+
+            animationFrameId = window.requestAnimationFrame(() => {
+                animationFrameId = 0;
+                setShowScrollTop(window.scrollY > 300);
+            });
         };
 
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        handleScroll();
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            if (animationFrameId) {
+                window.cancelAnimationFrame(animationFrameId);
+            }
+        };
     }, []);
 
     const scrollToTop = () => {

@@ -1,42 +1,60 @@
-import { useState, useEffect } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Loader from './components/Loader';
-import CustomCursor from './components/CustomCursor';
 import ParticleField from './components/3D/ParticleField';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import About from './components/About';
-import Experience from './components/Experience';
-import TechStack from './components/TechStack';
-import Projects from './components/Projects';
-import Education from './components/Education';
-
-import Achievements from './components/Achievements';
-import Contact from './components/Contact';
-import Footer from './components/Footer';
 import './index.css';
+
+const About = lazy(() => import('./components/About'));
+const Experience = lazy(() => import('./components/Experience'));
+const TechStack = lazy(() => import('./components/TechStack'));
+const Projects = lazy(() => import('./components/Projects'));
+const Education = lazy(() => import('./components/Education'));
+const Achievements = lazy(() => import('./components/Achievements'));
+const Contact = lazy(() => import('./components/Contact'));
+const Footer = lazy(() => import('./components/Footer'));
 
 function App() {
     const [showLoader, setShowLoader] = useState(true);
-    const [scrollProgress, setScrollProgress] = useState(0);
+    const scrollProgressRef = useRef(null);
 
     useEffect(() => {
-        // Check if loader has been shown before
         const loaderShown = sessionStorage.getItem('loaderShown');
         if (loaderShown) {
             setShowLoader(false);
         }
 
-        // Handle scroll progress
-        const handleScroll = () => {
-            const scrollTop = window.scrollY;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-            setScrollProgress(scrollPercent);
+        let animationFrameId = 0;
+
+        const updateScrollProgress = () => {
+            if (animationFrameId) {
+                return;
+            }
+
+            animationFrameId = window.requestAnimationFrame(() => {
+                animationFrameId = 0;
+                const progressBar = scrollProgressRef.current;
+                if (!progressBar) return;
+
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = docHeight > 0 ? scrollTop / docHeight : 0;
+                progressBar.style.transform = `scaleX(${scrollPercent})`;
+            });
         };
 
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', updateScrollProgress, { passive: true });
+        window.addEventListener('resize', updateScrollProgress, { passive: true });
+        updateScrollProgress();
+
+        return () => {
+            window.removeEventListener('scroll', updateScrollProgress);
+            window.removeEventListener('resize', updateScrollProgress);
+            if (animationFrameId) {
+                window.cancelAnimationFrame(animationFrameId);
+            }
+        };
     }, []);
 
     const handleLoaderComplete = () => {
@@ -51,16 +69,11 @@ function App() {
                 {showLoader && <Loader onComplete={handleLoaderComplete} />}
 
                 {/* Cursor */}
-                <CustomCursor />
-
                 {/* Particle Field */}
                 <ParticleField />
 
                 {/* Scroll Progress Bar */}
-                <motion.div
-                    className="scroll-progress"
-                    style={{ width: `${scrollProgress}%` }}
-                />
+                <motion.div className="scroll-progress" ref={scrollProgressRef} />
 
                 {/* Navigation */}
                 <Navbar />
@@ -68,18 +81,17 @@ function App() {
                 {/* Main Content */}
                 <main className="main">
                     <Hero />
-                    <About />
-                    <Experience />
-                    <TechStack />
-                    <Projects />
-                    <Education />
-
-                    <Achievements />
-                    <Contact />
+                    <Suspense fallback={null}>
+                        <About />
+                        <Experience />
+                        <TechStack />
+                        <Projects />
+                        <Education />
+                        <Achievements />
+                        <Contact />
+                        <Footer />
+                    </Suspense>
                 </main>
-
-                {/* Footer */}
-                <Footer />
             </div>
         </AnimatePresence>
     );

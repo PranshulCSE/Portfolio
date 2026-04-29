@@ -286,6 +286,8 @@ h1, h2, h3, h4, h5, h6 {
   justify-content: center;
   padding: 4rem 0;
   position: relative;
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 900px;
 }
 
 .section-header {
@@ -363,11 +365,38 @@ body::before {
   background: linear-gradient(90deg, var(--cyan), var(--violet), var(--fuchsia), var(--coral));
   background-size: 300% 100%;
   z-index: 9999;
-  transition: width 0.1s ease;
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 0.08s linear;
+  will-change: transform;
   animation: progress-glow 3s ease-in-out infinite;
 }
 
 @keyframes progress-glow {
   0%, 100% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .gradient-text,
+  .section-title,
+  .scroll-progress,
+  body::before {
+    animation: none !important;
+  }
+
+  .btn,
+  .card,
+  .social-link,
+  .project-link,
+  .achievement-card,
+  .skill-category,
+  .footer-social-link,
+  .scroll-to-top {
+    transition: none !important;
+  }
 }

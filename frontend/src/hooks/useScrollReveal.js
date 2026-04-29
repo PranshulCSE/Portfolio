@@ -11,6 +11,8 @@ export const useScrollReveal = () => {
                 if (entry.isIntersecting) {
                     entry.target.style.opacity = '1';
                     entry.target.style.transform = 'translateY(0)';
+                    entry.target.style.transitionProperty = 'opacity, transform';
+                    observer.unobserve(entry.target);
                 }
             },
             { threshold: 0.2 }
@@ -18,14 +20,13 @@ export const useScrollReveal = () => {
 
         elementRef.current.style.opacity = '0';
         elementRef.current.style.transform = 'translateY(50px)';
-        elementRef.current.style.transition = 'all 0.6s ease-out';
+        elementRef.current.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+        elementRef.current.style.willChange = 'opacity, transform';
 
         observer.observe(elementRef.current);
 
         return () => {
-            if (elementRef.current) {
-                observer.unobserve(elementRef.current);
-            }
+            observer.disconnect();
         };
     }, []);
 

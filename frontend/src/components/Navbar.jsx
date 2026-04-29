@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Menu, X, Download } from 'lucide-react';
-import { portfolioData } from '../constants/data';
 import '../styles/Navbar.css';
 
 const Navbar = () => {
@@ -19,17 +18,33 @@ const Navbar = () => {
     ];
 
     useEffect(() => {
+        let animationFrameId = 0;
+
         const handleScroll = () => {
-            setIsScrolled(window.scrollY > 80);
+            if (animationFrameId) {
+                return;
+            }
+
+            animationFrameId = window.requestAnimationFrame(() => {
+                animationFrameId = 0;
+                setIsScrolled(window.scrollY > 80);
+            });
         };
 
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        handleScroll();
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            if (animationFrameId) {
+                window.cancelAnimationFrame(animationFrameId);
+            }
+        };
     }, []);
 
     const handleDownloadResume = () => {
         const link = document.createElement('a');
-        link.href = '/Pranshul_Resume.pdf';
+        link.href = `${import.meta.env.BASE_URL}Documents/Resume.pdf`;
         link.download = 'Pranshul_Threja_Resume.pdf';
         document.body.appendChild(link);
         link.click();

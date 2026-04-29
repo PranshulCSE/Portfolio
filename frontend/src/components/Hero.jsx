@@ -1,36 +1,58 @@
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { useRef } from 'react';
 import { TypeAnimation } from 'react-type-animation';
 import { Download, Github, Linkedin, Mail, Code2, Cpu, Database, Globe, Layers, Zap } from 'lucide-react';
 import { portfolioData } from '../constants/data';
+import OptimizedImage from './OptimizedImage';
 import '../styles/Hero.css';
+
+const floatingIcons = [
+    { icon: <Cpu size={24} />, className: 'float-icon-1', delay: 0 },
+    { icon: <Database size={20} />, className: 'float-icon-2', delay: 0.5 },
+    { icon: <Globe size={22} />, className: 'float-icon-3', delay: 1 },
+    { icon: <Layers size={18} />, className: 'float-icon-4', delay: 1.5 },
+    { icon: <Zap size={20} />, className: 'float-icon-5', delay: 2 },
+];
+
+const floatingTags = [
+    { text: '<Code />', className: 'tag-1', delay: 0.2 },
+    { text: 'MERN', className: 'tag-2', delay: 0.7 },
+    { text: 'SDE', className: 'tag-3', delay: 1.2 },
+    { text: '{ JSON }', className: 'tag-4', delay: 1.7 },
+];
+
+const floatingShapes = [
+    { className: 'shape-1', delay: 0 },
+    { className: 'shape-2', delay: 1 },
+    { className: 'shape-3', delay: 2 },
+];
 
 const Hero = () => {
     const { personal, socials } = portfolioData;
+    const heroImageRef = useRef(null);
+    const rippleTimerRef = useRef(null);
 
-    // Mouse movement tracking for parallax effect
-    const mouseX = useMotionValue(0);
-    const mouseY = useMotionValue(0);
+    const triggerImageRipple = (event) => {
+        const wrapper = heroImageRef.current;
+        if (!wrapper) return;
 
-    // Smooth spring physics for mouse movement
-    const springConfig = { damping: 25, stiffness: 150 };
-    const springX = useSpring(mouseX, springConfig);
-    const springY = useSpring(mouseY, springConfig);
+        const bounds = wrapper.getBoundingClientRect();
+        const rippleX = event.clientX - bounds.left;
+        const rippleY = event.clientY - bounds.top;
 
-    // Transform mouse position to tilt rotation
-    const rotateX = useTransform(springY, [-0.5, 0.5], [10, -10]);
-    const rotateY = useTransform(springX, [-0.5, 0.5], [-10, 10]);
+        wrapper.style.setProperty('--ripple-x', `${rippleX}px`);
+        wrapper.style.setProperty('--ripple-y', `${rippleY}px`);
+        wrapper.classList.remove('hero-image-active');
+        void wrapper.offsetWidth;
+        wrapper.classList.add('hero-image-active');
 
-    // Floating elements parallax
-    const floatX = useTransform(springX, [-0.5, 0.5], [20, -20]);
-    const floatY = useTransform(springY, [-0.5, 0.5], [20, -20]);
+        if (rippleTimerRef.current) {
+            window.clearTimeout(rippleTimerRef.current);
+        }
 
-    const handleMouseMove = (e) => {
-        const { clientX, clientY } = e;
-        const { innerWidth, innerHeight } = window;
-        const x = (clientX / innerWidth) - 0.5;
-        const y = (clientY / innerHeight) - 0.5;
-        mouseX.set(x);
-        mouseY.set(y);
+        rippleTimerRef.current = window.setTimeout(() => {
+            wrapper.classList.remove('hero-image-active');
+        }, 420);
     };
 
     const containerVariants = {
@@ -54,29 +76,10 @@ const Hero = () => {
         },
     };
 
-    const floatingIcons = [
-        { icon: <Cpu size={24} />, className: 'float-icon-1', delay: 0 },
-        { icon: <Database size={20} />, className: 'float-icon-2', delay: 0.5 },
-        { icon: <Globe size={22} />, className: 'float-icon-3', delay: 1 },
-        { icon: <Layers size={18} />, className: 'float-icon-4', delay: 1.5 },
-        { icon: <Zap size={20} />, className: 'float-icon-5', delay: 2 },
-    ];
-
-    const floatingTags = [
-        { text: '<Code />', className: 'tag-1', delay: 0.2 },
-        { text: 'MERN', className: 'tag-2', delay: 0.7 },
-        { text: 'SDE', className: 'tag-3', delay: 1.2 },
-        { text: '{ JSON }', className: 'tag-4', delay: 1.7 },
-    ];
-
-    const floatingShapes = [
-        { className: 'shape-1', delay: 0 },
-        { className: 'shape-2', delay: 1 },
-        { className: 'shape-3', delay: 2 },
-    ];
+    const assetBase = import.meta.env.BASE_URL;
 
     return (
-        <section id="home" className="hero" onMouseMove={handleMouseMove}>
+        <section id="home" className="hero">
             <div className="hero-background-effects">
                 <div className="grid-overlay" />
                 <div className="gradient-blob blob-1" />
@@ -167,7 +170,6 @@ const Hero = () => {
                     initial={{ opacity: 0, x: 50, rotateY: 20 }}
                     animate={{ opacity: 1, x: 0, rotateY: 0 }}
                     transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-                    style={{ rotateX, rotateY }}
                 >
                     <div className="hero-image-wrapper">
                         {/* Floating Tech Icons */}
@@ -184,10 +186,6 @@ const Hero = () => {
                                     repeat: Infinity,
                                     ease: 'easeInOut',
                                     delay: item.delay,
-                                }}
-                                style={{
-                                    x: floatX,
-                                    y: floatY,
                                 }}
                             >
                                 {item.icon}
@@ -208,10 +206,6 @@ const Hero = () => {
                                     repeat: Infinity,
                                     ease: 'easeInOut',
                                     delay: item.delay,
-                                }}
-                                style={{
-                                    x: useTransform(springX, [-0.5, 0.5], [30 + index * 10, -(30 + index * 10)]),
-                                    y: useTransform(springY, [-0.5, 0.5], [30 + index * 10, -(30 + index * 10)]),
                                 }}
                             >
                                 {item.text}
@@ -244,19 +238,26 @@ const Hero = () => {
                             }}
                             transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
                         />
-                        
-                        <motion.div 
+
+                        <motion.div
                             className="image-container-3d"
                             whileHover={{ scale: 1.02 }}
                             transition={{ duration: 0.4 }}
+                            ref={heroImageRef}
+                            onPointerDown={triggerImageRipple}
                         >
-                            <img
-                                src="/assets/Images/Conference.jpg"
+                            <OptimizedImage
+                                src={`${assetBase}assets/Images/Conference.jpg`}
                                 alt="Conference"
                                 className="hero-conference-img"
+                                loading="eager"
+                                fetchPriority="high"
+                                width={1200}
+                                height={900}
                             />
                             <div className="hero-image-overlay" />
                             <div className="scanning-line" />
+                            <div className="hero-image-ripple" aria-hidden="true" />
                         </motion.div>
 
                         <div className="hero-image-border-anim" />

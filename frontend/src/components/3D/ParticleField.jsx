@@ -1,27 +1,52 @@
 import { useEffect, useRef } from 'react';
 
 const ParticleField = () => {
-    const containerRef = useRef();
     const canvasRef = useRef();
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isSmallScreen = window.innerWidth < 1024;
+    const isDisabled = prefersReducedMotion || isSmallScreen;
 
     useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
 
+        if (isDisabled) {
+            return undefined;
+        }
+
         const ctx = canvas.getContext('2d');
         let animationId;
+        let isVisible = true;
+        let resizeTimeoutId;
+        const devicePixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
 
         const resizeCanvas = () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            canvas.width = Math.floor(window.innerWidth * devicePixelRatio);
+            canvas.height = Math.floor(window.innerHeight * devicePixelRatio);
+            canvas.style.width = `${window.innerWidth}px`;
+            canvas.style.height = `${window.innerHeight}px`;
+            ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
         };
 
         resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
+        const handleResize = () => {
+            window.clearTimeout(resizeTimeoutId);
+            resizeTimeoutId = window.setTimeout(resizeCanvas, 120);
+        };
+
+        const handleVisibilityChange = () => {
+            isVisible = !document.hidden;
+            if (isVisible && !animationId) {
+                animate();
+            }
+        };
+
+        window.addEventListener('resize', handleResize, { passive: true });
+        document.addEventListener('visibilitychange', handleVisibilityChange, { passive: true });
 
         // Particles
         const particles = [];
-        const particleCount = 50;
+        const particleCount = Math.max(18, Math.min(30, Math.floor((window.innerWidth * window.innerHeight) / 50000)));
 
         class Particle {
             constructor() {
@@ -56,6 +81,11 @@ const ParticleField = () => {
         }
 
         const animate = () => {
+            if (!isVisible) {
+                animationId = 0;
+                return;
+            }
+
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             particles.forEach((p) => {
@@ -69,10 +99,16 @@ const ParticleField = () => {
         animate();
 
         return () => {
-            window.removeEventListener('resize', resizeCanvas);
+            window.clearTimeout(resizeTimeoutId);
+            window.removeEventListener('resize', handleResize);
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
             cancelAnimationFrame(animationId);
         };
     }, []);
+
+    if (isDisabled) {
+        return null;
+    }
 
     return (
         <canvas

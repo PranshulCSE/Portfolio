@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ExternalLink, Github } from 'lucide-react';
 import { portfolioData } from '../constants/data';
 import { useScrollReveal } from '../hooks/useScrollReveal';
+import OptimizedImage from './OptimizedImage';
 import '../styles/Projects.css';
 
 const Projects = () => {
@@ -84,7 +85,14 @@ const Projects = () => {
                             {/* Image */}
                             <div className="project-image">
                                 <div className="image-placeholder">
-                                    <img src={project.img} alt="Project_Image" />
+                                    <OptimizedImage
+                                        src={project.img}
+                                        alt={project.title}
+                                        className="project-image-media"
+                                        loading="lazy"
+                                        width={1200}
+                                        height={800}
+                                    />
                                 </div>
                                 {project.featured && (
                                     <div className="featured-badge">⭐ Featured</div>
