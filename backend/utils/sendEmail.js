@@ -5,25 +5,25 @@ dotenv.config();
 
 // Create transporter
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS, // Use App Password, not regular password
-    },
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS, // Use App Password, not regular password
+  },
 });
 
 // Verify transporter connection
 transporter.verify((error, success) => {
-    if (error) {
-        console.error('❌ Email configuration error:', error.message);
-    } else {
-        console.log('✓ Email service ready');
-    }
+  if (error) {
+    console.error('❌ Email configuration error:', error.message);
+  } else {
+    console.log('✓ Email service ready');
+  }
 });
 
 export const sendThankYouEmail = async ({ name, email, subject, message }) => {
-    try {
-        const htmlContent = `
+  try {
+    const htmlContent = `
       <!DOCTYPE html>
       <html>
       <head>
@@ -75,23 +75,24 @@ export const sendThankYouEmail = async ({ name, email, subject, message }) => {
       </html>
     `;
 
-        await transporter.sendMail({
-            from: process.env.EMAIL_USER,
-            to: email,
-            subject: `Thanks for reaching out, ${name}! 👋 — Pranshul Threja`,
-            html: htmlContent,
-        });
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: `Thanks for reaching out, ${name}! 👋 — Pranshul Threja`,
+      html: htmlContent,
+    });
 
-        console.log(`✓ Thank you email sent to ${email}`);
-    } catch (error) {
-        console.error('Error sending thank you email:', error.message);
-        throw new Error('Failed to send thank you email');
-    }
+    console.log(`✓ Thank you email sent to ${email}`);
+  } catch (error) {
+    console.error('Error sending thank you email (non-blocking):', error.message);
+    // Do not throw — keep email failures non-blocking so form submission succeeds
+    return;
+  }
 };
 
 export const sendNotificationEmail = async ({ name, email, subject, message }) => {
-    try {
-        const htmlContent = `
+  try {
+    const htmlContent = `
       <!DOCTYPE html>
       <html>
       <head>
@@ -130,16 +131,17 @@ export const sendNotificationEmail = async ({ name, email, subject, message }) =
       </html>
     `;
 
-        await transporter.sendMail({
-            from: process.env.EMAIL_USER,
-            to: process.env.OWNER_EMAIL,
-            subject: `New Contact Form: ${subject || 'Inquiry'} from ${name}`,
-            html: htmlContent,
-        });
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: process.env.OWNER_EMAIL,
+      subject: `New Contact Form: ${subject || 'Inquiry'} from ${name}`,
+      html: htmlContent,
+    });
 
-        console.log(`✓ Notification email sent to ${process.env.OWNER_EMAIL}`);
-    } catch (error) {
-        console.error('Error sending notification email:', error.message);
-        throw new Error('Failed to send notification email');
-    }
+    console.log(`✓ Notification email sent to ${process.env.OWNER_EMAIL}`);
+  } catch (error) {
+    console.error('Error sending notification email (non-blocking):', error.message);
+    // Do not throw — keep email failures non-blocking so form submission succeeds
+    return;
+  }
 };
