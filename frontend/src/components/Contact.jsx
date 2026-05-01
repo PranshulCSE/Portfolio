@@ -48,7 +48,7 @@ const Contact = () => {
 
         setLoading(true);
         try {
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+            const apiUrl = import.meta.env.VITE_API_URL || 'https://portfolio-ooql.onrender.com';
             const response = await fetch(`${apiUrl}/api/contact`, {
                 method: 'POST',
                 headers: {
