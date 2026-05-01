@@ -61,8 +61,12 @@ const Contact = () => {
                 toast.success('Message sent! I\'ll get back to you soon 🚀');
                 setFormData({ name: '', email: '', subject: '', message: '' });
             } else {
-                const data = await response.json();
-                toast.error(data.message || 'Error sending message');
+                try {
+                    const data = await response.json();
+                    toast.error(data.message || `Error: ${response.status} - Unable to send message`);
+                } catch {
+                    toast.error(`Error: ${response.status} - Unable to send message`);
+                }
             }
         } catch (error) {
             toast.error('Error connecting to server');
