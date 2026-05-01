@@ -1,6 +1,5 @@
 import Contact from '../models/Contact.js';
 import { sendThankYouEmail, sendNotificationEmail } from '../utils/sendEmail.js';
-import { appendToSheet } from '../utils/appendToSheet.js';
 
 export const handleContactForm = async (req, res) => {
     try {
@@ -21,20 +20,6 @@ export const handleContactForm = async (req, res) => {
 
         // Send notification email to admin
         await sendNotificationEmail({ name, email, subject, message });
-
-        // Append to Google Sheets
-        try {
-            await appendToSheet({
-                timestamp: new Date().toISOString(),
-                name,
-                email,
-                subject,
-                message,
-            });
-        } catch (sheetError) {
-            console.error('Google Sheets error (non-blocking):', sheetError.message);
-            // Don't fail the request if sheet update fails
-        }
 
         res.status(201).json({
             success: true,
@@ -61,26 +46,6 @@ export const handleContactForm = async (req, res) => {
             success: false,
             message: 'Error processing your request. Please try again later.',
             error: process.env.NODE_ENV === 'development' ? error.message : undefined,
-        });
-    }
-};
-
-export const getContactMessages = async (req, res) => {
-    try {
-        const messages = await Contact.find()
-            .sort({ createdAt: -1 })
-            .limit(50);
-
-        res.json({
-            success: true,
-            count: messages.length,
-            data: messages,
-        });
-    } catch (error) {
-        console.error('Error fetching messages:', error);
-        res.status(500).json({
-            success: false,
-            message: 'Error fetching messages',
         });
     }
 };
