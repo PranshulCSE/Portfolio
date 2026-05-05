@@ -1,0 +1,40 @@
+{
+    "name": "pranshul-portfolio",
+    "version": "1.0.0",
+    "description": "Full-stack MERN portfolio application",
+    "private": true,
+    "engines": {
+        "node": ">=16.0.0",
+        "npm": ">=8.0.0"
+    },
+    "scripts": {
+        "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install && cd ..",
+        "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+        "dev:backend": "cd backend && npm run dev",
+        "dev:frontend": "cd frontend && npm run dev",
+        "build": "npm run build:frontend && npm run build:backend",
+        "build:frontend": "cd frontend && npm run build",
+        "build:backend": "echo 'Backend does not require build'",
+        "start": "node backend/server.js",
+        "start:prod": "cd backend && npm start",
+        "preview": "cd frontend && npm run preview",
+        "test": "echo 'No tests configured'",
+        "lint": "echo 'No linting configured'"
+    },
+    "devDependencies": {
+        "concurrently": "^8.2.2"
+    },
+    "keywords": [
+        "mern",
+        "portfolio",
+        "full-stack",
+        "react",
+        "node"
+    ],
+    "author": "Pranshul Threja",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/PranshulCSE/Portfolio"
+    }
+}

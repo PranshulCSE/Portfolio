@@ -6,8 +6,24 @@ import contactRoutes from './routes/contactRoutes.js';
 
 dotenv.config();
 
+// ===== ENVIRONMENT VALIDATION =====
+const requiredEnvVars = ['MONGODB_URI', 'EMAIL_USER', 'EMAIL_PASS', 'OWNER_EMAIL'];
+const missingEnvVars = requiredEnvVars.filter(envVar => !process.env[envVar]);
+
+if (missingEnvVars.length > 0) {
+    console.error('❌ FATAL ERROR: Missing required environment variables:');
+    missingEnvVars.forEach(envVar => {
+        console.error(`   - ${envVar}`);
+    });
+    console.error('\n📋 Please set these variables in your .env file or deployment platform.');
+    console.error('📖 Refer to .env.example for guidance.\n');
+    process.exit(1);
+}
+
 const app = express();
+
 const PORT = process.env.PORT || 5000;
+const NODE_ENV = process.env.NODE_ENV || 'development';
 
 app.set('trust proxy', 1);
 
@@ -72,15 +88,17 @@ app.use((req, res) => {
 // Error Handler
 app.use((err, req, res, next) => {
     console.error('Error:', err.message);
-    res.status(500).json({
+    res.status(err.status || 500).json({
         success: false,
         message: 'Internal server error',
-        error: process.env.NODE_ENV === 'development' ? err.message : undefined,
+        error: NODE_ENV === 'development' ? err.message : undefined,
     });
 });
 
 // Start Server
 app.listen(PORT, () => {
-    console.log(`🚀 Server running at http://localhost:${PORT}`);
+    console.log(`\n🚀 Server running at http://localhost:${PORT}`);
     console.log(`📧 API ready to receive contact form submissions`);
+    console.log(`🔧 Environment: ${NODE_ENV}\n`);
 });
+

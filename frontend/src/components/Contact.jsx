@@ -5,6 +5,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { portfolioData } from '../constants/data';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import '../styles/Contact.css';
+import { submitContactForm } from '../utils/api';
 
 const Contact = () => {
     const sectionRef = useScrollReveal();
@@ -48,28 +49,19 @@ const Contact = () => {
 
         setLoading(true);
         try {
-            const apiUrl = import.meta.env.VITE_API_URL || 'https://portfolio-ooql.onrender.com';
-            const response = await fetch(`${apiUrl}/api/contact`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
+            const response = await submitContactForm(formData);
 
-            if (response.ok) {
-                toast.success('Message sent! I\'ll get back to you soon 🚀');
+            if (response.success) {
+                toast.success(response.message || 'Message sent! I\'ll get back to you soon 🚀');
                 setFormData({ name: '', email: '', subject: '', message: '' });
             } else {
-                try {
-                    const data = await response.json();
-                    toast.error(data.message || `Error: ${response.status} - Unable to send message`);
-                } catch {
-                    toast.error(`Error: ${response.status} - Unable to send message`);
-                }
+                toast.error(response.message || 'Failed to send message. Please try again.');
             }
         } catch (error) {
-            toast.error('Error connecting to server');
+            const errorMessage = error.data?.message ||
+                error.message ||
+                'Error connecting to server. Please try again later.';
+            toast.error(errorMessage);
             console.error('Contact form error:', error);
         } finally {
             setLoading(false);
