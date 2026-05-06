@@ -39,6 +39,10 @@ const Contact = () => {
             toast.error('Message is required');
             return false;
         }
+        if (formData.message.trim().length < 10) {
+            toast.error('Message must be at least 10 characters');
+            return false;
+        }
         return true;
     };
 

@@ -1,7 +1,7 @@
 // API configuration and utility functions
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 
-    (import.meta.env.MODE === 'production' 
+const API_BASE_URL = import.meta.env.VITE_API_URL ||
+    (import.meta.env.MODE === 'production'
         ? window.location.origin.replace(/\/$/, '')
         : 'http://localhost:5000');
 
@@ -23,13 +23,13 @@ export const getApiUrl = (endpoint) => {
  */
 export const apiRequest = async (endpoint, options = {}) => {
     const url = getApiUrl(endpoint);
-    
+
     const defaultOptions = {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
         },
-        signal: AbortSignal.timeout(10000), // 10 second timeout
+        signal: AbortSignal.timeout(30000), // 30 second timeout
     };
 
     const config = {
@@ -55,8 +55,8 @@ export const apiRequest = async (endpoint, options = {}) => {
 
         if (!response.ok) {
             const error = new Error(
-                data?.message || 
-                data?.error || 
+                data?.message ||
+                data?.error ||
                 `HTTP ${response.status}: ${response.statusText}`
             );
             error.status = response.status;

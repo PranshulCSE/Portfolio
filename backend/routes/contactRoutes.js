@@ -51,6 +51,9 @@ const handleValidationErrors = (req, res, next) => {
 };
 
 // Routes
-router.post('/', limiter, validateContactForm, handleValidationErrors, handleContactForm);
+router.post('/', (req, res, next) => {
+    console.log(`⏱️  POST /api/contact received at ${new Date().toISOString()}`);
+    next();
+}, limiter, validateContactForm, handleValidationErrors, handleContactForm);
 
 export default router;

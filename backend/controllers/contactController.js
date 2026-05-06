@@ -6,6 +6,8 @@ export const handleContactForm = async (req, res) => {
         const { name, email, subject, message } = req.body;
         const ipAddress = req.ip || req.connection.remoteAddress;
 
+        console.log(`📨 Incoming contact form: name=${name}, email=${email}`);
+
         // Create contact record in database
         const contactRecord = await Contact.create({
             name,
@@ -14,12 +16,15 @@ export const handleContactForm = async (req, res) => {
             message,
             ipAddress,
         });
+        console.log(`✓ Contact record saved: ${contactRecord._id}`);
 
-        // Send thank you email to user
-        await sendThankYouEmail({ name, email, subject, message });
+        // Send emails in background (fire-and-forget, do NOT await)
+        // This prevents email delays from blocking the API response
+        sendThankYouEmail({ name, email, subject, message })
+            .catch(err => console.error('❌ Thank you email failed:', err.message));
 
-        // Send notification email to admin
-        await sendNotificationEmail({ name, email, subject, message });
+        sendNotificationEmail({ name, email, subject, message })
+            .catch(err => console.error('❌ Notification email failed:', err.message));
 
         res.status(201).json({
             success: true,
@@ -29,6 +34,7 @@ export const handleContactForm = async (req, res) => {
                 timestamp: contactRecord.createdAt,
             },
         });
+        console.log(`✓ Response sent successfully`);
     } catch (error) {
         console.error('Contact form error:', error);
 
