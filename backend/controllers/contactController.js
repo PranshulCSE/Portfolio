@@ -2,6 +2,7 @@ import Contact from '../models/Contact.js';
 import { sendThankYouEmail, sendNotificationEmail } from '../utils/sendEmail.js';
 
 export const handleContactForm = async (req, res) => {
+    const startTime = Date.now();
     try {
         const { name, email, subject, message } = req.body;
         const ipAddress = req.ip || req.connection.remoteAddress;
@@ -9,6 +10,7 @@ export const handleContactForm = async (req, res) => {
         console.log(`📨 Incoming contact form: name=${name}, email=${email}`);
 
         // Create contact record in database
+        const dbStart = Date.now();
         const contactRecord = await Contact.create({
             name,
             email,
@@ -16,7 +18,8 @@ export const handleContactForm = async (req, res) => {
             message,
             ipAddress,
         });
-        console.log(`✓ Contact record saved: ${contactRecord._id}`);
+        const dbTime = Date.now() - dbStart;
+        console.log(`✓ Contact record saved: ${contactRecord._id} (${dbTime}ms)`);
 
         // Send emails in background (fire-and-forget, do NOT await)
         // This prevents email delays from blocking the API response
@@ -34,7 +37,8 @@ export const handleContactForm = async (req, res) => {
                 timestamp: contactRecord.createdAt,
             },
         });
-        console.log(`✓ Response sent successfully`);
+        const totalTime = Date.now() - startTime;
+        console.log(`✓ Response sent successfully (Total: ${totalTime}ms)`);
     } catch (error) {
         console.error('Contact form error:', error);
 
