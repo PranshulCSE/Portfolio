@@ -91,7 +91,7 @@ export const portfolioData = {
             metrics: ['35% ↑ Engagement', '50% ↓ Workload', '15+ Updates'],
             tags: ['MERN Stack', 'MongoDB', 'Express.js', 'React.js', 'Node.js'],
             github: 'https://github.com/PranshulCSE/Shri_Amarnath_Janshakti_Website.git',
-            live: 'https://shriamarnathjanshakti.vercel.app/',
+            live: 'https://shriamarnathjanshakti.app/',
             featured: true,
             category: 'Full Stack'
         },

@@ -1,5 +1,5 @@
 import Contact from '../models/Contact.js';
-import { sendThankYouEmail, sendNotificationEmail } from '../utils/sendEmail.js';
+import { sendContactEmails } from '../utils/sendEmail.js';
 
 export const handleContactForm = async (req, res) => {
     const startTime = Date.now();
@@ -21,14 +21,6 @@ export const handleContactForm = async (req, res) => {
         const dbTime = Date.now() - dbStart;
         console.log(`✓ Contact record saved: ${contactRecord._id} (${dbTime}ms)`);
 
-        // Send emails in background (fire-and-forget, do NOT await)
-        // This prevents email delays from blocking the API response
-        sendThankYouEmail({ name, email, subject, message })
-            .catch(err => console.error('❌ Thank you email failed:', err.message));
-
-        sendNotificationEmail({ name, email, subject, message })
-            .catch(err => console.error('❌ Notification email failed:', err.message));
-
         res.status(201).json({
             success: true,
             message: 'Your message has been received! I\'ll get back to you soon.',
@@ -37,6 +29,21 @@ export const handleContactForm = async (req, res) => {
                 timestamp: contactRecord.createdAt,
             },
         });
+
+        setImmediate(() => {
+            void sendContactEmails({ name, email, subject, message })
+                .then(({ thankYouResult, notificationResult }) => {
+                    if (thankYouResult.status === 'rejected') {
+                        console.error('❌ Thank you email failed:', thankYouResult.reason?.message || thankYouResult.reason);
+                    }
+
+                    if (notificationResult.status === 'rejected') {
+                        console.error('❌ Notification email failed:', notificationResult.reason?.message || notificationResult.reason);
+                    }
+                })
+                .catch(err => console.error('❌ Email dispatch failed:', err.message));
+        });
+
         const totalTime = Date.now() - startTime;
         console.log(`✓ Response sent successfully (Total: ${totalTime}ms)`);
     } catch (error) {

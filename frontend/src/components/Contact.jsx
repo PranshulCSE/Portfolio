@@ -165,6 +165,7 @@ const Contact = () => {
                     <motion.form
                         className="contact-form"
                         onSubmit={handleSubmit}
+                        aria-busy={loading}
                         initial={{ opacity: 0, x: 50 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.6 }}
@@ -179,6 +180,7 @@ const Contact = () => {
                                 onChange={handleInputChange}
                                 placeholder="Your name"
                                 required
+                                disabled={loading}
                             />
                         </div>
 
@@ -192,6 +194,7 @@ const Contact = () => {
                                 onChange={handleInputChange}
                                 placeholder="your@email.com"
                                 required
+                                disabled={loading}
                             />
                         </div>
 
@@ -204,6 +207,7 @@ const Contact = () => {
                                 value={formData.subject}
                                 onChange={handleInputChange}
                                 placeholder="Project inquiry"
+                                disabled={loading}
                             />
                         </div>
 
@@ -217,6 +221,7 @@ const Contact = () => {
                                 placeholder="Tell me about your project..."
                                 rows="5"
                                 required
+                                disabled={loading}
                             ></textarea>
                         </div>
 
@@ -227,6 +232,10 @@ const Contact = () => {
                         >
                             {loading ? 'Sending...' : 'Send Message 🚀'}
                         </button>
+
+                        <p className="form-note">
+                            Your message is stored immediately, then the emails are sent in the background.
+                        </p>
                     </motion.form>
                 </div>
             </div>

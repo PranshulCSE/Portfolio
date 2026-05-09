@@ -3,7 +3,7 @@
 const API_BASE_URL = import.meta.env.VITE_API_URL ||
     (import.meta.env.MODE === 'production'
         ? window.location.origin.replace(/\/$/, '')
-        : 'http://localhost:5000');
+        : '');
 
 /**
  * Construct full API endpoint URL
