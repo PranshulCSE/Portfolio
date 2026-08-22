@@ -180,7 +180,7 @@ export const portfolioData = {
         {
             id: 1,
             img: assetPath('assets/Images/Leetcode.png'),
-            title: '325+ DSA Problems + 50-Day Streak',
+            title: '325+ DSA Problems + 100-Day Streak',
             description: 'Solved 325+ algorithmic problems on LeetCode & GeeksforGeeks with a 50-day problem-solving streak on LeetCode.',
             category: 'Technical',
             date: '2026'
@@ -215,7 +215,7 @@ export const portfolioData = {
             title: 'MCA 1st Semester Topper',
             description: 'Named 1st Semester Topper in MCA at Geeta University with an SGPA of 9.33.',
             category: 'Academic',
-            date: '2025'
+            date: '2025-2026'
         }
     ]
 };
