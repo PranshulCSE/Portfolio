@@ -3,6 +3,10 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import contactRoutes from './routes/contactRoutes.js';
+import authRoutes from './routes/authRoutes.js';
+import portfolioRoutes from './routes/portfolioRoutes.js';
+import adminRoutes from './routes/adminRoutes.js';
+import { seedDatabase } from './utils/seed.js';
 
 dotenv.config();
 
@@ -71,8 +75,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI)
-    .then(() => {
+    .then(async () => {
         console.log('✓ MongoDB connected successfully');
+        await seedDatabase();
     })
     .catch((err) => {
         console.error('✗ MongoDB connection failed:', err.message);
@@ -81,6 +86,9 @@ mongoose.connect(process.env.MONGODB_URI)
 
 // Routes
 app.use('/api/contact', contactRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/portfolio', portfolioRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Health Check
 app.get('/api/health', (req, res) => {

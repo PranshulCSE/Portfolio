@@ -1,0 +1,152 @@
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { ExternalLink, Github } from 'lucide-react';
+import { usePortfolioData } from '../hooks/usePortfolioData';
+import OptimizedImage from '../components/OptimizedImage';
+import Loader from '../components/Loader';
+import '../styles/Projects.css';
+
+const ProjectsPage = () => {
+    const { portfolio, loading } = usePortfolioData();
+    const [filter, setFilter] = useState('All');
+
+    if (loading) return <Loader onComplete={() => {}} />;
+
+    const projects = portfolio?.projects || [];
+    const categories = ['All', 'Full Stack', 'Frontend', 'Backend'];
+
+    const filteredProjects = filter === 'All'
+        ? projects
+        : projects.filter(p => p.category === filter);
+
+    const getImageUrl = (path) => {
+        if (!path) return '';
+        if (path.startsWith('http') || path.startsWith('data:')) return path;
+        const base = import.meta.env.BASE_URL || '/';
+        return `${base}${path.replace(/^\/+/, '')}`;
+    };
+
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.2,
+                delayChildren: 0.1,
+            },
+        },
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, y: 30 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.6 },
+        },
+    };
+
+    return (
+        <section className="projects section section-padding">
+            <div className="container">
+                <motion.div
+                    className="section-header"
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                >
+                    <p className="section-label">MY WORKS</p>
+                    <h2 className="section-title">Projects</h2>
+                    <p className="section-subtitle">
+                        Explore my projects and open-source contributions. Use the tabs below to filter by category.
+                    </p>
+                </motion.div>
+
+                {/* Filter Tabs */}
+                <div className="filter-tabs">
+                    {categories.map((cat, idx) => (
+                        <motion.button
+                            key={idx}
+                            className={`filter-btn ${filter === cat ? 'active' : ''}`}
+                            onClick={() => setFilter(cat)}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                        >
+                            {cat}
+                        </motion.button>
+                    ))}
+                </div>
+
+                {/* Projects Grid */}
+                {filteredProjects.length > 0 ? (
+                    <motion.div
+                        className="projects-grid"
+                        variants={containerVariants}
+                        initial="hidden"
+                        animate="visible"
+                    >
+                        {filteredProjects.map((project) => (
+                            <motion.div
+                                key={project._id}
+                                className="project-card card"
+                                variants={itemVariants}
+                            >
+                                {/* Image */}
+                                <div className="project-image">
+                                    <div className="image-placeholder">
+                                        <OptimizedImage
+                                            src={getImageUrl(project.image)}
+                                            alt={project.title}
+                                            className="project-image-media"
+                                            loading="lazy"
+                                            width={1200}
+                                            height={800}
+                                        />
+                                    </div>
+                                    {project.featured && (
+                                        <div className="featured-badge">⭐ Featured</div>
+                                    )}
+                                </div>
+
+                                {/* Content */}
+                                <div className="project-content">
+                                    <h3 className="project-title">{project.title}</h3>
+                                    <p className="project-description">{project.description}</p>
+
+                                    {/* Tags */}
+                                    <div className="project-tags">
+                                        {project.tags.map((tag, tidx) => (
+                                            <span key={tidx} className="project-tag">{tag}</span>
+                                        ))}
+                                    </div>
+
+                                    {/* Links */}
+                                    <div className="project-links">
+                                        {project.github && (
+                                            <a href={project.github} target="_blank" rel="noopener noreferrer" className="project-link">
+                                                <Github size={18} />
+                                                GitHub
+                                            </a>
+                                        )}
+                                        {project.live && (
+                                            <a href={project.live} target="_blank" rel="noopener noreferrer" className="project-link">
+                                                <ExternalLink size={18} />
+                                                Live Demo
+                                            </a>
+                                        )}
+                                    </div>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </motion.div>
+                ) : (
+                    <div className="no-projects">
+                        <p>No projects found in this category.</p>
+                    </div>
+                )}
+            </div>
+        </section>
+    );
+};
+
+export default ProjectsPage;

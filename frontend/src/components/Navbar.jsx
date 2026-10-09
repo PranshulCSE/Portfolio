@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Menu, X, Download } from 'lucide-react';
 import '../styles/Navbar.css';
@@ -6,25 +7,22 @@ import '../styles/Navbar.css';
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
+    const navigate = useNavigate();
 
     const navLinks = [
-        'Home',
-        'About',
-        'Experience',
-        'Skills',
-        'Projects',
-        'Achievements',
-        'Contact'
+        { label: 'Home', path: '/' },
+        { label: 'About', path: '/about' },
+        { label: 'Skills', path: '/skills' },
+        { label: 'Projects', path: '/projects' },
+        { label: 'Achievements', path: '/achievements' },
+        { label: 'Contact', path: '/contact' },
     ];
 
     useEffect(() => {
         let animationFrameId = 0;
 
         const handleScroll = () => {
-            if (animationFrameId) {
-                return;
-            }
-
+            if (animationFrameId) return;
             animationFrameId = window.requestAnimationFrame(() => {
                 animationFrameId = 0;
                 setIsScrolled(window.scrollY > 80);
@@ -36,19 +34,22 @@ const Navbar = () => {
 
         return () => {
             window.removeEventListener('scroll', handleScroll);
-            if (animationFrameId) {
-                window.cancelAnimationFrame(animationFrameId);
-            }
+            if (animationFrameId) window.cancelAnimationFrame(animationFrameId);
         };
     }, []);
 
     const handleDownloadResume = () => {
         const link = document.createElement('a');
-        link.href = `${import.meta.env.BASE_URL}Documents/Resume.pdf`;
+        link.href = `${import.meta.env.BASE_URL || '/'}Documents/Resume.pdf`;
         link.download = 'Pranshul_Threja_Resume.pdf';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+    };
+
+    const handleLogoClick = () => {
+        navigate('/');
+        setIsOpen(false);
     };
 
     return (
@@ -60,20 +61,21 @@ const Navbar = () => {
         >
             <div className="navbar-container">
                 {/* Logo */}
-                <div className="navbar-logo">
+                <button className="navbar-logo" onClick={handleLogoClick} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
                     <span className="logo-text">PT</span>
-                </div>
+                </button>
 
                 {/* Desktop Navigation */}
                 <div className="nav-links-desktop">
                     {navLinks.map((link) => (
-                        <a
-                            key={link}
-                            href={`#${link.toLowerCase()}`}
-                            className="nav-link"
+                        <NavLink
+                            key={link.path}
+                            to={link.path}
+                            end={link.path === '/'}
+                            className={({ isActive }) => `nav-link${isActive ? ' active-nav' : ''}`}
                         >
-                            {link}
-                        </a>
+                            {link.label}
+                        </NavLink>
                     ))}
                 </div>
 
@@ -90,6 +92,7 @@ const Navbar = () => {
                 <button
                     className="mobile-menu-btn"
                     onClick={() => setIsOpen(!isOpen)}
+                    aria-label="Toggle menu"
                 >
                     {isOpen ? <X size={24} /> : <Menu size={24} />}
                 </button>
@@ -103,21 +106,25 @@ const Navbar = () => {
                         exit={{ opacity: 0, y: -20 }}
                     >
                         {navLinks.map((link, index) => (
-                            <motion.a
-                                key={link}
-                                href={`#${link.toLowerCase()}`}
-                                className="mobile-nav-link"
-                                initial={{ opacity: 0, x: -20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: index * 0.1 }}
+                            <NavLink
+                                key={link.path}
+                                to={link.path}
+                                end={link.path === '/'}
+                                className={({ isActive }) => `mobile-nav-link${isActive ? ' active-nav' : ''}`}
                                 onClick={() => setIsOpen(false)}
                             >
-                                {link}
-                            </motion.a>
+                                <motion.span
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: index * 0.1 }}
+                                >
+                                    {link.label}
+                                </motion.span>
+                            </NavLink>
                         ))}
                         <motion.button
                             className="btn btn-primary btn-pill mobile-resume-btn"
-                            onClick={handleDownloadResume}
+                            onClick={() => { handleDownloadResume(); setIsOpen(false); }}
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: navLinks.length * 0.1 }}

@@ -1,4 +1,3 @@
-
 {
     "name": "pranshul-portfolio",
     "private": true,
@@ -10,6 +9,7 @@
         "preview": "vite preview"
     },
     "dependencies": {
+        "axios": "^1.19.0",
         "framer-motion": "^11.0.3",
         "lucide-react": "^0.383.0",
         "react": "^18.2.0",
@@ -17,6 +17,7 @@
         "react-dom": "^18.2.0",
         "react-hot-toast": "^2.4.1",
         "react-intersection-observer": "^9.8.1",
+        "react-router-dom": "^7.18.2",
         "react-type-animation": "^3.2.0",
         "react-vertical-timeline-component": "^3.6.0"
     },

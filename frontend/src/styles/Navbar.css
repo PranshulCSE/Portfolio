@@ -68,12 +68,19 @@
   transition: width 0.3s ease;
 }
 
-.nav-link:hover {
+.nav-link:hover,
+.nav-link.active-nav {
   color: var(--cyan);
 }
 
-.nav-link:hover::after {
+.nav-link:hover::after,
+.nav-link.active-nav::after {
   width: 100%;
+}
+
+.mobile-nav-link.active-nav {
+  color: var(--cyan);
+  padding-left: 0.5rem;
 }
 
 .resume-btn {
