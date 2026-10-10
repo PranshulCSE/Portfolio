@@ -3,6 +3,9 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
     plugins: [react()],
+    esbuild: {
+        drop: process.env.NODE_ENV === 'production' ? ['console', 'debugger'] : [],
+    },
     server: {
         port: 5173,
         host: '0.0.0.0',
@@ -18,15 +21,12 @@ export default defineConfig({
         outDir: 'dist',
         sourcemap: false,
         minify: 'esbuild',
-        esbuild: {
-            drop: ['console'],
-        },
         rollupOptions: {
             output: {
                 manualChunks: {
-                    'vendor': ['react', 'react-dom'],
+                    'react-core': ['react', 'react-dom', 'react-router-dom'],
                     'animations': ['framer-motion', 'react-type-animation', 'react-countup'],
-                    'ui': ['lucide-react', 'react-hot-toast'],
+                    'icons': ['lucide-react'],
                 },
             },
         },

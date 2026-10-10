@@ -25,7 +25,8 @@ const Navbar = () => {
             if (animationFrameId) return;
             animationFrameId = window.requestAnimationFrame(() => {
                 animationFrameId = 0;
-                setIsScrolled(window.scrollY > 80);
+                const shouldBeScrolled = window.scrollY > 80;
+                setIsScrolled(prev => (prev !== shouldBeScrolled ? shouldBeScrolled : prev));
             });
         };
 

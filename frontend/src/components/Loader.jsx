@@ -1,37 +1,41 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import '../styles/Loader.css';
 
 const Loader = ({ onComplete }) => {
     const [progress, setProgress] = useState(0);
     const [show, setShow] = useState(true);
+    const onCompleteRef = useRef(onComplete);
 
     useEffect(() => {
-        // Simulate progress
+        onCompleteRef.current = onComplete;
+    }, [onComplete]);
+
+    useEffect(() => {
         const interval = setInterval(() => {
             setProgress(prev => {
                 if (prev >= 100) {
                     clearInterval(interval);
                     return 100;
                 }
-                return prev + Math.random() * 30;
+                const next = prev + Math.random() * 25 + 10;
+                return next >= 100 ? 100 : next;
             });
-        }, 200);
+        }, 120);
 
-        // Auto-complete after 2 seconds
         const timer = setTimeout(() => {
             setProgress(100);
             setTimeout(() => {
                 setShow(false);
-                onComplete?.();
-            }, 300);
-        }, 2000);
+                onCompleteRef.current?.();
+            }, 250);
+        }, 1200);
 
         return () => {
             clearInterval(interval);
             clearTimeout(timer);
         };
-    }, [onComplete]);
+    }, []);
 
     if (!show) return null;
 
@@ -39,30 +43,20 @@ const Loader = ({ onComplete }) => {
         <motion.div
             className="loader-container"
             exit={{ y: '-100%' }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
         >
             <div className="loader-content">
-                <motion.h1
-                    className="loader-initials"
-                    animate={{
-                        textShadow: [
-                            '-2px 0 #00d4ff, 2px 0 #7b2ff7',
-                            '-2px 0 #7b2ff7, 2px 0 #00d4ff',
-                            '2px 0 #00d4ff, -2px 0 #7b2ff7',
-                            '2px 0 #7b2ff7, -2px 0 #00d4ff'
-                        ]
-                    }}
-                    transition={{ duration: 0.3, repeat: Infinity }}
-                >
+                <h1 className="loader-initials gradient-text">
                     PT
-                </motion.h1>
+                </h1>
             </div>
             <div className="progress-bar">
-                <motion.div
+                <div
                     className="progress-fill"
-                    initial={{ width: 0 }}
-                    animate={{ width: `${progress}%` }}
-                    transition={{ duration: 0.1 }}
+                    style={{
+                        width: `${progress}%`,
+                        transition: 'width 0.15s ease-out',
+                    }}
                 />
             </div>
         </motion.div>

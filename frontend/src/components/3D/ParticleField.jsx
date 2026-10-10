@@ -1,127 +1,155 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const ParticleField = () => {
-    const canvasRef = useRef();
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const isSmallScreen = window.innerWidth < 1024;
-    const isDisabled = prefersReducedMotion || isSmallScreen;
+    const canvasRef = useRef(null);
+    const [isEnabled, setIsEnabled] = useState(true);
 
     useEffect(() => {
+        const checkMotionAndSize = () => {
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const isSmallScreen = window.innerWidth < 768;
+            setIsEnabled(!prefersReducedMotion && !isSmallScreen);
+        };
+
+        checkMotionAndSize();
+        window.addEventListener('resize', checkMotionAndSize, { passive: true });
+        return () => window.removeEventListener('resize', checkMotionAndSize);
+    }, []);
+
+    useEffect(() => {
+        if (!isEnabled) return;
+
         const canvas = canvasRef.current;
         if (!canvas) return;
 
-        if (isDisabled) {
-            return undefined;
-        }
+        const ctx = canvas.getContext('2d', { alpha: true });
+        if (!ctx) return;
 
-        const ctx = canvas.getContext('2d');
-        let animationId;
-        let isVisible = true;
+        let animationId = 0;
+        let isVisible = !document.hidden;
         let resizeTimeoutId;
-        const devicePixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
+        const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+
+        let width = window.innerWidth;
+        let height = window.innerHeight;
 
         const resizeCanvas = () => {
-            canvas.width = Math.floor(window.innerWidth * devicePixelRatio);
-            canvas.height = Math.floor(window.innerHeight * devicePixelRatio);
-            canvas.style.width = `${window.innerWidth}px`;
-            canvas.style.height = `${window.innerHeight}px`;
-            ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = Math.floor(width * dpr);
+            canvas.height = Math.floor(height * dpr);
+            canvas.style.width = `${width}px`;
+            canvas.style.height = `${height}px`;
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         };
 
         resizeCanvas();
+
         const handleResize = () => {
             window.clearTimeout(resizeTimeoutId);
-            resizeTimeoutId = window.setTimeout(resizeCanvas, 120);
+            resizeTimeoutId = window.setTimeout(resizeCanvas, 150);
         };
 
         const handleVisibilityChange = () => {
             isVisible = !document.hidden;
             if (isVisible && !animationId) {
-                animate();
+                lastTime = performance.now();
+                animationId = requestAnimationFrame(animate);
             }
         };
 
         window.addEventListener('resize', handleResize, { passive: true });
         document.addEventListener('visibilitychange', handleVisibilityChange, { passive: true });
 
-        // Particles
-        const particles = [];
-        const particleCount = Math.max(18, Math.min(30, Math.floor((window.innerWidth * window.innerHeight) / 50000)));
+        // Generate subtle, lightweight particles
+        const particleCount = Math.max(12, Math.min(24, Math.floor((width * height) / 65000)));
 
         class Particle {
             constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.5;
-                this.vy = (Math.random() - 0.5) * 0.5;
-                this.size = Math.random() * 2 + 1;
-                this.opacity = Math.random() * 0.5 + 0.3;
+                this.reset(true);
+            }
+
+            reset(initial = false) {
+                this.x = initial ? Math.random() * width : (Math.random() > 0.5 ? 0 : width);
+                this.y = initial ? Math.random() * height : Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.4;
+                this.vy = (Math.random() - 0.5) * 0.4;
+                this.size = Math.random() * 1.5 + 0.8;
+                this.opacity = Math.random() * 0.35 + 0.15;
             }
 
             update() {
                 this.x += this.vx;
                 this.y += this.vy;
 
-                if (this.x < 0) this.x = canvas.width;
-                if (this.x > canvas.width) this.x = 0;
-                if (this.y < 0) this.y = canvas.height;
-                if (this.y > canvas.height) this.y = 0;
+                if (this.x < -10) this.x = width + 10;
+                else if (this.x > width + 10) this.x = -10;
+                if (this.y < -10) this.y = height + 10;
+                else if (this.y > height + 10) this.y = -10;
             }
 
             draw() {
-                ctx.fillStyle = `rgba(0, 212, 255, ${this.opacity})`;
+                ctx.fillStyle = `rgba(6, 182, 212, ${this.opacity})`;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
             }
         }
 
-        for (let i = 0; i < particleCount; i++) {
-            particles.push(new Particle());
-        }
+        const particles = Array.from({ length: particleCount }, () => new Particle());
 
-        const animate = () => {
+        let lastTime = performance.now();
+        const fpsInterval = 1000 / 30; // Cap particle updates to smooth 30-40fps to save GPU/battery
+
+        const animate = (currentTime) => {
             if (!isVisible) {
                 animationId = 0;
                 return;
             }
 
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            particles.forEach((p) => {
-                p.update();
-                p.draw();
-            });
-
             animationId = requestAnimationFrame(animate);
+
+            const elapsed = currentTime - lastTime;
+            if (elapsed < fpsInterval) return;
+            lastTime = currentTime - (elapsed % fpsInterval);
+
+            ctx.clearRect(0, 0, width, height);
+
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+            }
         };
 
-        animate();
+        animationId = requestAnimationFrame(animate);
 
         return () => {
             window.clearTimeout(resizeTimeoutId);
             window.removeEventListener('resize', handleResize);
             document.removeEventListener('visibilitychange', handleVisibilityChange);
-            cancelAnimationFrame(animationId);
+            if (animationId) cancelAnimationFrame(animationId);
         };
-    }, []);
+    }, [isEnabled]);
 
-    if (isDisabled) {
+    if (!isEnabled) {
         return null;
     }
 
     return (
         <canvas
             ref={canvasRef}
+            aria-hidden="true"
             style={{
                 position: 'fixed',
                 top: 0,
                 left: 0,
                 width: '100%',
                 height: '100%',
-                zIndex: 1,
+                zIndex: 0,
                 pointerEvents: 'none',
-                opacity: 0.5,
+                opacity: 0.6,
+                transform: 'translateZ(0)',
+                willChange: 'transform',
             }}
         />
     );
