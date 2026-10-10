@@ -1,0 +1,72 @@
+/* src/components/TechNodeMap/TechNodeMap.css */
+
+.tech-node-map-section {
+  background-color: #0b0c10;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  contain: paint;
+}
+
+/* Hardware-Accelerated Engineering Grid */
+.blueprint-grid-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: 
+    linear-gradient(to right, rgba(6, 182, 212, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(6, 182, 212, 0.06) 1px, transparent 1px);
+  background-size: 40px 40px;
+  transform: translateZ(0);
+  will-change: opacity;
+}
+
+/* Radar Scan Line Animation */
+@keyframes radarScan {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.8;
+  }
+  70% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(1000px);
+    opacity: 0;
+  }
+}
+
+.radar-scan-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.6), transparent);
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.8);
+  animation: radarScan 7s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Vector Glow & Line Pulse */
+.stream-vector-glow {
+  filter: drop-shadow(0 0 4px currentColor);
+}
+
+/* Custom Scrollbar for Telemetry Terminal */
+.telemetry-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+.telemetry-scroll::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.6);
+}
+.telemetry-scroll::-webkit-scrollbar-thumb {
+  background: rgba(6, 182, 212, 0.4);
+  border-radius: 2px;
+}
+.telemetry-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(6, 182, 212, 0.8);
+}
