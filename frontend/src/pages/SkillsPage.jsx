@@ -14,9 +14,7 @@ const categoryLabels = {
 };
 
 const SkillsPage = () => {
-    const { portfolio, loading } = usePortfolioData();
-
-    if (loading) return <Loader onComplete={() => {}} />;
+    const { portfolio } = usePortfolioData();
 
     const skills = portfolio?.skills || {};
     const learning = skills.learning || [];

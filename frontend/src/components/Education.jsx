@@ -1,12 +1,13 @@
 import { motion } from 'framer-motion';
 import { GraduationCap, Star } from 'lucide-react';
-import { portfolioData } from '../constants/data';
+import { usePortfolioData } from '../hooks/usePortfolioData';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import '../styles/Education.css';
 
 const Education = () => {
     const sectionRef = useScrollReveal();
-    const { education } = portfolioData;
+    const { portfolio } = usePortfolioData();
+    const education = portfolio?.education || [];
 
     const containerVariants = {
         hidden: { opacity: 0 },

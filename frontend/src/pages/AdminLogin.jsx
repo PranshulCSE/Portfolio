@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Lock, User } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useAuth } from '../hooks/useAuth';
-import '../../src/styles/Contact.css'; // Reuse form styles
+import '../styles/Contact.css'; // Reuse form styles
 
 const AdminLogin = () => {
     const { login, isAuthenticated, loading } = useAuth();

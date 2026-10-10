@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, Github } from 'lucide-react';
-import { portfolioData } from '../constants/data';
+import { usePortfolioData } from '../hooks/usePortfolioData';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import OptimizedImage from './OptimizedImage';
 import '../styles/Projects.css';
 
 const Projects = () => {
     const sectionRef = useScrollReveal();
-    const { projects } = portfolioData;
+    const { portfolio } = usePortfolioData();
+    const projects = portfolio?.projects || [];
     const [filter, setFilter] = useState('All');
 
     const categories = ['All', 'Full Stack', 'Frontend', 'Backend'];
@@ -16,6 +17,13 @@ const Projects = () => {
     const filteredProjects = filter === 'All'
         ? projects
         : projects.filter(p => p.category === filter);
+
+    const getImageUrl = (path) => {
+        if (!path) return '';
+        if (path.startsWith('http') || path.startsWith('data:')) return path;
+        const base = import.meta.env.BASE_URL || '/';
+        return `${base}${path.replace(/^\/+/, '')}`;
+    };
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -78,7 +86,7 @@ const Projects = () => {
                 >
                     {filteredProjects.map((project, idx) => (
                         <motion.div
-                            key={project.id}
+                            key={project._id || project.id || idx}
                             className="project-card card"
                             variants={itemVariants}
                         >
@@ -86,7 +94,7 @@ const Projects = () => {
                             <div className="project-image">
                                 <div className="image-placeholder">
                                     <OptimizedImage
-                                        src={project.img}
+                                        src={getImageUrl(project.image || project.img)}
                                         alt={project.title}
                                         className="project-image-media"
                                         loading="lazy"

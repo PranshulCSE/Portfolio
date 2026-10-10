@@ -1,22 +1,30 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { X } from 'lucide-react';
-import { portfolioData } from '../constants/data';
+import { usePortfolioData } from '../hooks/usePortfolioData';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import OptimizedImage from './OptimizedImage';
 import '../styles/Achievements.css';
 
 const Achievements = () => {
     const sectionRef = useScrollReveal();
-    const { achievements } = portfolioData;
+    const { portfolio } = usePortfolioData();
+    const achievements = portfolio?.achievements || [];
     const [selectedAchievement, setSelectedAchievement] = useState(null);
     const [filter, setFilter] = useState('All');
 
-    const categories = ['All', 'Leadership', 'Technical', 'Academic', 'Learning'];
+    const categories = ['All', 'Leadership', 'Technical', 'Academic', 'Learning', 'Competition', 'Mentorship'];
 
     const filteredAchievements = filter === 'All'
         ? achievements
         : achievements.filter(a => a.category === filter);
+
+    const getImageUrl = (path) => {
+        if (!path) return '';
+        if (path.startsWith('http') || path.startsWith('data:')) return path;
+        const base = import.meta.env.BASE_URL || '/';
+        return `${base}${path.replace(/^\/+/, '')}`;
+    };
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -79,7 +87,7 @@ const Achievements = () => {
                 >
                     {filteredAchievements.map((achievement, idx) => (
                         <motion.div
-                            key={achievement.id}
+                            key={achievement._id || achievement.id || idx}
                             className="achievement-card"
                             variants={itemVariants}
                             onClick={() => setSelectedAchievement(achievement)}
@@ -87,7 +95,7 @@ const Achievements = () => {
                             <div className="achievement-image">
                                 <div className="image-placeholder">
                                     <OptimizedImage
-                                        src={achievement.img}
+                                        src={getImageUrl(achievement.image || achievement.img)}
                                         alt={achievement.title}
                                         className="achievement-image-media"
                                         loading="lazy"
@@ -134,7 +142,7 @@ const Achievements = () => {
                             <div className="lightbox-image">
                                 <div className="image-placeholder-large">
                                     <OptimizedImage
-                                        src={selectedAchievement.img}
+                                        src={getImageUrl(selectedAchievement.image || selectedAchievement.img)}
                                         alt={selectedAchievement.title}
                                         className="achievement-lightbox-media"
                                         loading="lazy"

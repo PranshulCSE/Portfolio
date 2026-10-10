@@ -1,15 +1,26 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Github, Linkedin, Code2 } from 'lucide-react';
-import toast, { Toaster } from 'react-hot-toast';
-import { portfolioData } from '../constants/data';
+import toast from 'react-hot-toast';
+import { usePortfolioData } from '../hooks/usePortfolioData';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import '../styles/Contact.css';
-import { submitContactForm } from '../utils/api';
+import { submitContactForm } from '../api/portfolioApi';
 
 const Contact = () => {
     const sectionRef = useScrollReveal();
-    const { personal, socials } = portfolioData;
+    const { portfolio } = usePortfolioData();
+    const personal = portfolio?.personal || {
+        email: 'threjapranshul@gmail.com',
+        phone: '+91 9992560407',
+        location: 'Karnal, Haryana, India',
+    };
+    const socials = portfolio?.socials || {
+        github: 'https://github.com/PranshulCSE',
+        linkedin: 'https://www.linkedin.com/in/pranshul132001',
+        leetcode: 'https://leetcode.com/Pranshul_Threja',
+        email: 'mailto:threjapranshul@gmail.com',
+    };
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -92,7 +103,6 @@ const Contact = () => {
 
     return (
         <section id="contact" className="contact section" ref={sectionRef}>
-            <Toaster position="bottom-right" />
             <div className="container">
                 <motion.div
                     className="section-header"

@@ -16,11 +16,9 @@ import '../styles/Experience.css';
 import '../styles/Education.css';
 
 const AboutPage = () => {
-    const { portfolio, loading } = usePortfolioData();
+    const { portfolio } = usePortfolioData();
     const { ref: statsRef, inView: statsInView } = useInView({ threshold: 0.2, triggerOnce: true });
     const assetBase = import.meta.env.BASE_URL || '/';
-
-    if (loading) return <Loader onComplete={() => {}} />;
 
     const about = portfolio?.about || {
         bio: 'MCA Student and Full-Stack Developer.',

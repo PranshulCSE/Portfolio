@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import CountUp from 'react-countup';
 import { useInView } from 'react-intersection-observer';
-import { portfolioData } from '../constants/data';
+import { usePortfolioData } from '../hooks/usePortfolioData';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import OptimizedImage from './OptimizedImage';
 import '../styles/About.css';
@@ -9,8 +9,15 @@ import '../styles/About.css';
 const About = () => {
     const { ref, inView } = useInView({ threshold: 0.2, triggerOnce: true });
     const sectionRef = useScrollReveal();
-    const { about } = portfolioData;
-    const assetBase = import.meta.env.BASE_URL;
+    const { portfolio } = usePortfolioData();
+    const about = portfolio?.about || {
+        bio: '',
+        philosophy: '',
+        focus: [],
+        stats: [],
+    };
+    const personal = portfolio?.personal || { name: 'Pranshul Threja' };
+    const assetBase = import.meta.env.BASE_URL || '/';
 
     return (
         <section id="about" className="about section" ref={sectionRef}>

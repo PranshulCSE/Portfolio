@@ -8,7 +8,7 @@ import Loader from '../components/Loader';
 import '../styles/Contact.css';
 
 const ContactPage = () => {
-    const { portfolio, loading } = usePortfolioData();
+    const { portfolio } = usePortfolioData();
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -16,8 +16,6 @@ const ContactPage = () => {
         message: '',
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
-
-    if (loading) return <Loader onComplete={() => {}} />;
 
     const personal = portfolio?.personal || {
         email: 'threjapranshul@gmail.com',

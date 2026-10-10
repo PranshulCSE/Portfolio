@@ -7,11 +7,9 @@ import Loader from '../components/Loader';
 import '../styles/Achievements.css';
 
 const AchievementsPage = () => {
-    const { portfolio, loading } = usePortfolioData();
+    const { portfolio } = usePortfolioData();
     const [selectedAchievement, setSelectedAchievement] = useState(null);
     const [filter, setFilter] = useState('All');
-
-    if (loading) return <Loader onComplete={() => {}} />;
 
     const achievements = portfolio?.achievements || [];
     const certifications = portfolio?.certifications || [];

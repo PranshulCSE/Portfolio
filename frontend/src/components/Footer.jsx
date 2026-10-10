@@ -1,24 +1,32 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { ArrowUp, Github, Linkedin, Mail, Code2 } from 'lucide-react';
-import { portfolioData } from '../constants/data';
+import { usePortfolioData } from '../hooks/usePortfolioData';
 import '../styles/Footer.css';
 
 const Footer = () => {
-    const { personal, socials } = portfolioData;
+    const { portfolio } = usePortfolioData();
+    const personal = portfolio?.personal || { name: 'Pranshul Threja', tagline: 'Building Scalable Software, One Commit at a Time.' };
+    const socials = portfolio?.socials || {
+        github: 'https://github.com/PranshulCSE',
+        linkedin: 'https://www.linkedin.com/in/pranshul132001',
+        leetcode: 'https://leetcode.com/Pranshul_Threja',
+        email: 'mailto:threjapranshul@gmail.com',
+    };
+
     const [showScrollTop, setShowScrollTop] = useState(false);
 
     useEffect(() => {
         let animationFrameId = 0;
 
         const handleScroll = () => {
-            if (animationFrameId) {
-                return;
-            }
+            if (animationFrameId) return;
 
             animationFrameId = window.requestAnimationFrame(() => {
                 animationFrameId = 0;
-                setShowScrollTop(window.scrollY > 300);
+                const shouldShow = window.scrollY > 300;
+                setShowScrollTop(prev => (prev !== shouldShow ? shouldShow : prev));
             });
         };
 
@@ -37,7 +45,15 @@ const Footer = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    const navLinks = ['About', 'Experience', 'Skills', 'Projects', 'Certifications', 'Contact'];
+    const navLinks = [
+        { label: 'Home', path: '/' },
+        { label: 'About', path: '/about' },
+        { label: 'Skills', path: '/skills' },
+        { label: 'Projects', path: '/projects' },
+        { label: 'Achievements', path: '/achievements' },
+        { label: 'Contact', path: '/contact' },
+    ];
+
     const socialLinks = [
         { icon: Github, href: socials.github, label: 'GitHub' },
         { icon: Linkedin, href: socials.linkedin, label: 'LinkedIn' },
@@ -65,9 +81,9 @@ const Footer = () => {
                         <h4>Quick Links</h4>
                         <div className="links-grid">
                             {navLinks.map((link) => (
-                                <a key={link} href={`#${link.toLowerCase()}`} className="footer-link">
-                                    {link}
-                                </a>
+                                <Link key={link.path} to={link.path} className="footer-link">
+                                    {link.label}
+                                </Link>
                             ))}
                         </div>
                     </div>
@@ -107,7 +123,7 @@ const Footer = () => {
                         transition={{ duration: 0.6, delay: 0.2 }}
                     >
                         <p>
-                            ⚡ Built with <span className="highlight">MERN Stack</span> + React Three Fiber
+                            ⚡ Built with <span className="highlight">MERN Stack</span> + Modern React
                         </p>
                         <p>
                             © {new Date().getFullYear()} {personal.name}. All rights reserved.

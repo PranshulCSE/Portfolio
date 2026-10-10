@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-const defaultFallbackSrc = `${import.meta.env.BASE_URL}assets/Images/Profile2.png`;
+const defaultFallbackSrc = `${import.meta.env.BASE_URL || '/'}assets/Images/Profile2.png`;
 
 const OptimizedImage = ({
     src,
@@ -16,8 +16,13 @@ const OptimizedImage = ({
     style,
     ...rest
 }) => {
-    const [currentSrc, setCurrentSrc] = useState(src);
+    const [currentSrc, setCurrentSrc] = useState(src || fallbackSrc);
     const [hasFallbackError, setHasFallbackError] = useState(false);
+
+    useEffect(() => {
+        setCurrentSrc(src || fallbackSrc);
+        setHasFallbackError(false);
+    }, [src, fallbackSrc]);
 
     const handleError = () => {
         if (currentSrc !== fallbackSrc) {
@@ -47,7 +52,7 @@ const OptimizedImage = ({
             className={className}
             loading={loading}
             decoding={decoding}
-            fetchpriority={fetchPriority}
+            fetchPriority={fetchPriority}
             width={width}
             height={height}
             sizes={sizes}

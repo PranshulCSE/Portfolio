@@ -10,7 +10,7 @@ import {
     Code2, FileCode, Award, ShieldAlert, MailOpen, LogOut, Plus, Trash2, Edit3, Eye, CheckCircle, Circle
 } from 'lucide-react';
 import toast from 'react-hot-toast';
-import '../../src/styles/Contact.css'; // For form inputs reuse
+import '../styles/Contact.css'; // For form inputs reuse
 
 const AdminDashboard = () => {
     const { logout, isAuthenticated, loading: authLoading } = useAuth();

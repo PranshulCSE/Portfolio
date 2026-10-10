@@ -6,14 +6,11 @@ import { Link } from 'react-router-dom';
 import { usePortfolioData } from '../hooks/usePortfolioData';
 import OptimizedImage from '../components/OptimizedImage';
 import Loader from '../components/Loader';
-import '../../src/styles/Hero.css';
+import '../styles/Hero.css';
 
 const Home = () => {
-    const { portfolio, loading, error } = usePortfolioData();
+    const { portfolio } = usePortfolioData();
     const assetBase = import.meta.env.BASE_URL || '/';
-
-    if (loading) return <Loader onComplete={() => {}} />;
-    if (error) return <div className="error-container"><h2>Error connecting to backend</h2><p>{error}</p></div>;
 
     const personal = portfolio?.personal || {
         name: 'Pranshul Threja',

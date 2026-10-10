@@ -1,8 +1,9 @@
 import { motion } from 'framer-motion';
 import { useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { TypeAnimation } from 'react-type-animation';
 import { Download, Github, Linkedin, Mail, Code2, Cpu, Database, Globe, Layers, Zap } from 'lucide-react';
-import { portfolioData } from '../constants/data';
+import { usePortfolioData } from '../hooks/usePortfolioData';
 import OptimizedImage from './OptimizedImage';
 import '../styles/Hero.css';
 
@@ -28,7 +29,14 @@ const floatingShapes = [
 ];
 
 const Hero = () => {
-    const { personal, socials } = portfolioData;
+    const { portfolio } = usePortfolioData();
+    const personal = portfolio?.personal || { name: 'Pranshul Threja', tagline: 'Building Scalable Software, One Commit at a Time.' };
+    const socials = portfolio?.socials || {
+        github: 'https://github.com/PranshulCSE',
+        linkedin: 'https://www.linkedin.com/in/pranshul132001',
+        leetcode: 'https://leetcode.com/Pranshul_Threja',
+        email: 'mailto:threjapranshul@gmail.com',
+    };
     const heroImageRef = useRef(null);
     const rippleTimerRef = useRef(null);
 
@@ -132,11 +140,11 @@ const Hero = () => {
                     </motion.p>
 
                     <motion.div className="hero-cta" variants={itemVariants}>
-                        <a href="#projects" className="btn btn-primary">
+                        <Link to="/projects" className="btn btn-primary">
                             View My Work
                             <span className="btn-icon">→</span>
-                        </a>
-                        <a href="/Documents/Resume.pdf" download className="btn btn-secondary">
+                        </Link>
+                        <a href={`${import.meta.env.BASE_URL || '/'}Documents/Resume.pdf`} download="Pranshul_Threja_Resume.pdf" className="btn btn-secondary">
                             <Download size={18} />
                             Resume
                         </a>

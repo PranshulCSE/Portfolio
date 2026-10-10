@@ -7,10 +7,8 @@ import Loader from '../components/Loader';
 import '../styles/Projects.css';
 
 const ProjectsPage = () => {
-    const { portfolio, loading } = usePortfolioData();
+    const { portfolio } = usePortfolioData();
     const [filter, setFilter] = useState('All');
-
-    if (loading) return <Loader onComplete={() => {}} />;
 
     const projects = portfolio?.projects || [];
     const categories = ['All', 'Full Stack', 'Frontend', 'Backend'];

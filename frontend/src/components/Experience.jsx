@@ -5,13 +5,14 @@ import {
 } from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
 import { Briefcase } from 'lucide-react';
-import { portfolioData } from '../constants/data';
+import { usePortfolioData } from '../hooks/usePortfolioData';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import '../styles/Experience.css';
 
 const Experience = () => {
     const sectionRef = useScrollReveal();
-    const { experience } = portfolioData;
+    const { portfolio } = usePortfolioData();
+    const experience = portfolio?.experience || [];
 
     return (
         <section id="experience" className="experience section" ref={sectionRef}>
