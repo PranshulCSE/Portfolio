@@ -216,8 +216,8 @@ export const seedDatabase = async () => {
         // 1. Seed Admin User
         const adminCount = await User.countDocuments();
         if (adminCount === 0) {
-            const username = process.env.ADMIN_USERNAME ;
-            const password = process.env.ADMIN_PASSWORD ;
+            const username = (process.env.ADMIN_USERNAME || 'admin').trim().toLowerCase();
+            const password = process.env.ADMIN_PASSWORD || 'Admin@12345';
 
             const adminUser = new User({
                 username,

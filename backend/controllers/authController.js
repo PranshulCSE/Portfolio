@@ -16,10 +16,17 @@ export const loginAdmin = async (req, res) => {
     try {
         const { username, password } = req.body;
         const ipAddress = req.ip || req.connection.remoteAddress;
-        const userAgent = req.headers['user-agent'];
+        const userAgent = req.headers['user-agent'] || 'Unknown';
 
-        // Find user
-        const user = await User.findOne({ username: username.toLowerCase() });
+        if (!username || !password || typeof username !== 'string' || typeof password !== 'string') {
+            return res.status(400).json({
+                success: false,
+                message: 'Username and password are required',
+            });
+        }
+
+        // Find user (case-insensitive safe match)
+        const user = await User.findOne({ username: username.trim().toLowerCase() });
 
         if (user && (await user.comparePassword(password))) {
             // Update last login

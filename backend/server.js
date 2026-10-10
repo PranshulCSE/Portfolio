@@ -33,25 +33,27 @@ app.set('trust proxy', 1);
 
 const buildAllowedOrigins = () => {
     const configuredOrigin = process.env.FRONTEND_URL || 'http://localhost:5173';
-    const origins = new Set([configuredOrigin]);
+    const origins = new Set([
+        configuredOrigin,
+        'https://pranshulthreja.vercel.app',
+        'https://www.pranshulthreja.vercel.app',
+        'https://pranshulthreja.tech',
+        'https://www.pranshulthreja.tech',
+        'http://localhost:5173',
+        'http://127.0.0.1:5173',
+        'http://localhost:3000',
+        'http://127.0.0.1:3000',
+    ]);
 
     try {
         const url = new URL(configuredOrigin);
-
         if (url.hostname.startsWith('www.')) {
             origins.add(`${url.protocol}//${url.hostname.replace(/^www\./, '')}${url.port ? `:${url.port}` : ''}`);
         } else {
             origins.add(`${url.protocol}//www.${url.hostname}${url.port ? `:${url.port}` : ''}`);
         }
     } catch {
-        // Keep the configured origin only if it is not a valid URL.
-    }
-
-    if (NODE_ENV !== 'production') {
-        origins.add('http://localhost:5173');
-        origins.add('http://127.0.0.1:5173');
-        origins.add('http://localhost:3000');
-        origins.add('http://127.0.0.1:3000');
+        // Ignore parsing errors for custom origin strings
     }
 
     return origins;
@@ -62,7 +64,14 @@ const allowedOrigins = buildAllowedOrigins();
 // Middleware
 app.use(cors({
     origin: (origin, callback) => {
-        if (!origin || allowedOrigins.has(origin)) {
+        if (!origin) return callback(null, true);
+
+        if (allowedOrigins.has(origin)) {
+            return callback(null, true);
+        }
+
+        // Allow any vercel.app preview or production deployment
+        if (/^https:\/\/[a-zA-Z0-9-_]+\.vercel\.app$/.test(origin)) {
             return callback(null, true);
         }
 
