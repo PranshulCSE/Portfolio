@@ -4,7 +4,7 @@ import TechStack from '../components/TechStack';
 
 const SkillsPage = () => {
     return (
-        <div className="skills-page-container w-full min-h-screen bg-[#0b0c10]">
+        <div className="skills-page-container w-full min-h-screen bg-[#06070a]">
             <TechStack />
         </div>
     );

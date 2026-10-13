@@ -90,7 +90,7 @@ export const TECH_NODES = [
     categoryKey: "FOUNDATIONAL SYSTEMS",
     brandColor: "#00599C",
     glowColor: "rgba(0, 89, 156, 0.45)",
-    coords: { x: 22, y: 24 },
+    coords: { x: 26, y: 16 },
     mobileOrder: 1,
     badge: "Native / Low-Level",
     hasBenchmark: true,
@@ -122,7 +122,7 @@ export const TECH_NODES = [
     categoryKey: "FOUNDATIONAL SYSTEMS",
     brandColor: "#6366F1",
     glowColor: "rgba(99, 102, 241, 0.45)",
-    coords: { x: 34, y: 16 },
+    coords: { x: 36, y: 34 },
     mobileOrder: 2,
     badge: "O(log N) Focus",
     hasBenchmark: true,
@@ -157,7 +157,7 @@ export const TECH_NODES = [
     categoryKey: "FRONTEND LAYER",
     brandColor: "#61DAFB",
     glowColor: "rgba(97, 218, 251, 0.45)",
-    coords: { x: 74, y: 22 },
+    coords: { x: 88, y: 34 },
     mobileOrder: 3,
     badge: "Virtual DOM v18+",
     icon: (
@@ -188,7 +188,7 @@ export const TECH_NODES = [
     categoryKey: "FRONTEND LAYER",
     brandColor: "#FFFFFF",
     glowColor: "rgba(255, 255, 255, 0.4)",
-    coords: { x: 86, y: 38 },
+    coords: { x: 88, y: 66 },
     mobileOrder: 4,
     badge: "App Router / SSR",
     icon: (
@@ -217,7 +217,7 @@ export const TECH_NODES = [
     categoryKey: "FRONTEND LAYER",
     brandColor: "#38BDF8",
     glowColor: "rgba(56, 189, 248, 0.4)",
-    coords: { x: 82, y: 64 },
+    coords: { x: 64, y: 34 },
     mobileOrder: 5,
     badge: "JIT Engine",
     icon: (
@@ -247,7 +247,7 @@ export const TECH_NODES = [
     categoryKey: "INFRASTRUCTURE CORE",
     brandColor: "#22C55E",
     glowColor: "rgba(34, 197, 94, 0.45)",
-    coords: { x: 68, y: 82 },
+    coords: { x: 74, y: 84 },
     mobileOrder: 6,
     badge: "Event Loop v20",
     icon: (
@@ -276,7 +276,7 @@ export const TECH_NODES = [
     categoryKey: "INFRASTRUCTURE CORE",
     brandColor: "#A3E635",
     glowColor: "rgba(163, 230, 53, 0.4)",
-    coords: { x: 50, y: 88 },
+    coords: { x: 50, y: 90 },
     mobileOrder: 7,
     badge: "Middleware Stack",
     icon: (
@@ -305,7 +305,7 @@ export const TECH_NODES = [
     categoryKey: "INFRASTRUCTURE CORE",
     brandColor: "#14B8A6",
     glowColor: "rgba(20, 184, 166, 0.4)",
-    coords: { x: 32, y: 84 },
+    coords: { x: 12, y: 66 },
     mobileOrder: 8,
     badge: "OpenAPI 3.0",
     icon: (
@@ -338,7 +338,7 @@ export const TECH_NODES = [
     categoryKey: "PERSISTENCE LAYER",
     brandColor: "#10AA50",
     glowColor: "rgba(16, 170, 80, 0.45)",
-    coords: { x: 18, y: 68 },
+    coords: { x: 26, y: 84 },
     mobileOrder: 9,
     badge: "NoSQL / Document",
     icon: (
@@ -367,7 +367,7 @@ export const TECH_NODES = [
     categoryKey: "PERSISTENCE LAYER",
     brandColor: "#336791",
     glowColor: "rgba(51, 103, 145, 0.45)",
-    coords: { x: 12, y: 46 },
+    coords: { x: 12, y: 34 },
     mobileOrder: 10,
     badge: "Relational / ACID",
     icon: (
@@ -397,7 +397,7 @@ export const TECH_NODES = [
     categoryKey: "PERSISTENCE LAYER",
     brandColor: "#DC382D",
     glowColor: "rgba(220, 56, 45, 0.45)",
-    coords: { x: 24, y: 38 },
+    coords: { x: 34, y: 62 },
     mobileOrder: 11,
     badge: "In-Memory Cache",
     hasBenchmark: true,
@@ -430,7 +430,7 @@ export const TECH_NODES = [
     categoryKey: "CLOUD ECOSYSTEM",
     brandColor: "#FF9900",
     glowColor: "rgba(255, 153, 0, 0.45)",
-    coords: { x: 50, y: 12 },
+    coords: { x: 50, y: 10 },
     mobileOrder: 12,
     badge: "S3 / EC2 / Lambda",
     icon: (
@@ -459,7 +459,7 @@ export const TECH_NODES = [
     categoryKey: "CLOUD ECOSYSTEM",
     brandColor: "#2496ED",
     glowColor: "rgba(36, 150, 237, 0.45)",
-    coords: { x: 68, y: 16 },
+    coords: { x: 74, y: 16 },
     mobileOrder: 13,
     badge: "Containerization",
     icon: (
@@ -492,7 +492,7 @@ export const TECH_NODES = [
     categoryKey: "CLOUD ECOSYSTEM",
     brandColor: "#F3F4F6",
     glowColor: "rgba(243, 244, 246, 0.4)",
-    coords: { x: 88, y: 52 },
+    coords: { x: 70, y: 50 },
     mobileOrder: 14,
     badge: "Workflows / VCS",
     icon: (

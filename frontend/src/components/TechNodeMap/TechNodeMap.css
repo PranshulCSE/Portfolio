@@ -1,24 +1,49 @@
 /* src/components/TechNodeMap/TechNodeMap.css */
 
 .tech-node-map-section {
-  background-color: #0b0c10;
+  background-color: #06070a;
   position: relative;
   overflow: hidden;
   isolation: isolate;
   contain: paint;
 }
 
-/* Hardware-Accelerated Engineering Grid */
+/* ── 1. HARDWARE-ACCELERATED CYBER CIRCUIT & MATRIX STREAM ── */
 .blueprint-grid-overlay {
   position: absolute;
   inset: 0;
   pointer-events: none;
   background-image: 
-    linear-gradient(to right, rgba(6, 182, 212, 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(6, 182, 212, 0.06) 1px, transparent 1px);
-  background-size: 40px 40px;
+    linear-gradient(to right, rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
+  background-size: 36px 36px;
   transform: translateZ(0);
   will-change: opacity;
+}
+
+/* Subtle Matrix Rain / Digital Code Stream (Pure CSS, 0% CPU Overhead) */
+.matrix-stream-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.04;
+  background: repeating-linear-gradient(
+    180deg,
+    rgba(0, 240, 255, 0.15) 0,
+    rgba(0, 240, 255, 0.15) 2px,
+    transparent 2px,
+    transparent 6px
+  );
+  animation: matrixScan 14s linear infinite;
+}
+
+@keyframes matrixScan {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 600px;
+  }
 }
 
 /* Radar Scan Line Animation */
@@ -27,14 +52,14 @@
     transform: translateY(-100%);
     opacity: 0;
   }
-  30% {
-    opacity: 0.8;
+  20% {
+    opacity: 0.9;
   }
-  70% {
-    opacity: 0.8;
+  80% {
+    opacity: 0.9;
   }
   100% {
-    transform: translateY(1000px);
+    transform: translateY(1200px);
     opacity: 0;
   }
 }
@@ -44,16 +69,81 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.6), transparent);
-  box-shadow: 0 0 15px rgba(6, 182, 212, 0.8);
-  animation: radarScan 7s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.8), transparent);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.9);
+  animation: radarScan 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   pointer-events: none;
   z-index: 5;
 }
 
+/* ── 2. NEON BUTTON & BADGE UTILITIES (MATCHING YUGANTRAN SCREENSHOT) ── */
+.cyber-btn-primary {
+  background: #00f0ff;
+  color: #030712;
+  font-weight: 800;
+  box-shadow: 0 0 25px rgba(0, 240, 255, 0.65);
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cyber-btn-primary:hover {
+  background: #22d3ee;
+  box-shadow: 0 0 40px rgba(0, 240, 255, 0.9);
+  transform: translateY(-1px) scale(1.02);
+}
+
+.cyber-btn-secondary {
+  background: rgba(7, 12, 24, 0.85);
+  border: 1.5px solid rgba(0, 240, 255, 0.4);
+  color: #00f0ff;
+  font-weight: 700;
+  backdrop-filter: blur(12px);
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cyber-btn-secondary:hover {
+  border-color: #00f0ff;
+  background: rgba(0, 240, 255, 0.12);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.35);
+  transform: translateY(-1px) scale(1.02);
+}
+
+/* Cyber Badge Pill (Screenshot Header Style) */
+.cyber-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 1rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(0, 240, 255, 0.45);
+  background: rgba(0, 43, 54, 0.65);
+  backdrop-filter: blur(10px);
+  color: #00f0ff;
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.25);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* Cyber Card Architecture */
+.cyber-card {
+  background: rgba(7, 11, 22, 0.88);
+  border: 1.5px solid rgba(0, 240, 255, 0.2);
+  border-radius: 1rem;
+  backdrop-filter: blur(16px);
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cyber-card:hover {
+  border-color: rgba(0, 240, 255, 0.6);
+  box-shadow: 0 0 35px rgba(0, 240, 255, 0.25);
+  transform: translateY(-3px);
+}
+
 /* Vector Glow & Line Pulse */
 .stream-vector-glow {
-  filter: drop-shadow(0 0 4px currentColor);
+  filter: drop-shadow(0 0 5px currentColor);
 }
 
 /* Custom Scrollbar for Telemetry Terminal */
@@ -61,12 +151,12 @@
   width: 4px;
 }
 .telemetry-scroll::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.6);
+  background: rgba(6, 10, 18, 0.8);
 }
 .telemetry-scroll::-webkit-scrollbar-thumb {
-  background: rgba(6, 182, 212, 0.4);
+  background: rgba(0, 240, 255, 0.4);
   border-radius: 2px;
 }
 .telemetry-scroll::-webkit-scrollbar-thumb:hover {
-  background: rgba(6, 182, 212, 0.8);
+  background: rgba(0, 240, 255, 0.85);
 }
